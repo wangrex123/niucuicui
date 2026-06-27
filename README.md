@@ -1,10 +1,14 @@
 # niucuicui
 
-Classic master version of the Moo Steak Chips landing page.
+Classic master version of the MOO Steak Chips landing page, now structured as a Shopify theme.
 
-## Files
+## Theme Structure
 
-- `index.html`: main single-file site
-- `assets/moo-hero-pack-fixed.png`: hero pack asset
+- `layout/`: Shopify theme layout files
+- `templates/index.json`: homepage template
+- `sections/moo-*`: custom landing page sections
+- `snippets/moo-flavor-card.liquid`: reusable flavor card snippet
+- `assets/moo-landing.css`: landing page styles
+- `assets/moo-landing.js`: landing page interactions
 
-This repo is prepared as a clean starting point for future Shopify import work.
+This repo is prepared for Shopify theme import while keeping the Taste theme foundation intact.

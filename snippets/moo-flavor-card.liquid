@@ -1,0 +1,61 @@
+{% liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign form_id = 'product-form-' | append: section_id | append: '-' | append: flavor_key
+%}
+<article class="flavor-card {{ card_class }}">
+  <div class="flavor-glyph">{{ glyph }}</div>
+  <div class="flavor-body-layout">
+    <div class="flavor-copy-stack">
+      <div class="flavor-num">{{ number_label }}</div>
+      <div class="flavor-mood">{{ mood }}</div>
+      <h3 class="flavor-title">{{ title }}</h3>
+      <div class="flavor-en">{{ subtitle }}</div>
+      <p class="flavor-desc">{{ description }}</p>
+      <div class="flavor-profile">
+        {{ profile_markup }}
+      </div>
+      <div class="flavor-note-cluster">
+        {% for note in notes %}<span>{{ note }}</span>{% endfor %}
+      </div>
+    </div>
+    <div class="flavor-scene {{ scene_class }}">
+      <div class="scene-grid"></div>
+      <div class="scene-badge">{{ scene_badge }}</div>
+      <div class="scene-glow scene-glow-a"></div>
+      <div class="scene-glow scene-glow-b"></div>
+      <div class="scene-pack-shell"></div>
+      <div class="scene-pack-wrap">
+        <img src="{{ asset_image | asset_url }}" alt="{{ title }} package" class="scene-pack-image">
+        <div class="scene-pack-tag">{{ scene_tag }}</div>
+      </div>
+      <div class="scene-caption">{{ scene_caption }}</div>
+    </div>
+  </div>
+  <div class="flavor-footer">
+    <div class="flavor-price">
+      <span class="flavor-price-value">{% if product != blank %}{{ product.price | money }}{% else %}$89{% endif %}</span>
+      <span class="flavor-price-meta">{% if product != blank %}{{ product.metafields.custom.pack_size.value | default: 'per bag' }}{% else %}50g / bag{% endif %}</span>
+    </div>
+    <div class="flex items-center gap-4">
+      {% if product != blank and current_variant != blank %}
+        <product-form class="product-form moo-flavor-form" data-hide-errors="false" data-section-id="{{ section_id }}">
+          <div class="product-form__error-message-wrapper" role="alert" hidden>
+            <span class="product-form__error-message"></span>
+          </div>
+          {%- form 'product', product, id: form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+            <input type="hidden" name="id" value="{{ current_variant.id }}" {% unless current_variant.available %}disabled{% endunless %} class="product-variant-id">
+            <div class="product-form__buttons">
+              <button type="submit" name="add" class="product-form__submit button button--primary btn-primary btn-duel moo-submit" {% unless current_variant.available %}disabled{% endunless %}>
+                <span>{% if current_variant.available %}{{ button_label }}{% else %}Sold out{% endif %}</span>
+                {%- render 'loading-spinner' -%}
+              </button>
+            </div>
+          {%- endform -%}
+        </product-form>
+        <a href="{{ product.url }}" class="moo-flavor-link">View details</a>
+      {% else %}
+        <a href="{{ routes.all_products_collection_url }}" class="btn-primary btn-duel">Explore flavor</a>
+      {% endif %}
+    </div>
+  </div>
+</article>

@@ -1,0 +1,98 @@
+{% liquid
+  assign cart_count = cart.item_count
+%}
+<div id="loader" class="loader">
+  <div class="loader-counter" id="loaderCounter">00</div>
+  <div class="loader-text">MOO</div>
+  <div class="loader-bar-track"><div class="loader-bar-fill" id="loaderBar"></div></div>
+</div>
+
+<nav class="main-nav" id="mainNav">
+  <a href="{{ routes.root_url }}" class="font-serif text-2xl text-moo-goldLight">MOO</a>
+  <div class="hidden md:flex items-center gap-10">
+    <a href="#flavors" class="nav-link">Flavors</a>
+    <a href="#process" class="nav-link">Process</a>
+    <a href="#video" class="nav-link">Video</a>
+    <a href="#testimonials" class="nav-link">Reviews</a>
+    <a href="{{ routes.cart_url }}" class="nav-link flex items-center gap-2 moo-cart-link">Cart{% if cart_count > 0 %}<span id="navCartCount" class="text-[10px] bg-moo-gold text-moo-void px-1.5 py-0.5 rounded-full">{{ cart_count }}</span>{% endif %}</a>
+  </div>
+  <div class="flex items-center gap-4 md:hidden">
+    <a href="{{ routes.cart_url }}" class="text-moo-goldLight moo-cart-link" aria-label="Open cart">
+      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/></svg>
+    </a>
+    <button type="button" data-moo-menu-toggle class="text-moo-cream moo-menu-toggle" aria-label="Open menu">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5"/></svg>
+    </button>
+  </div>
+</nav>
+
+<div id="mobileMenu" class="hidden fixed inset-0 bg-moo-void/95 backdrop-blur-xl z-50 flex flex-col items-center justify-center gap-8">
+  <button type="button" data-moo-menu-close class="absolute top-6 right-6 text-moo-cream moo-menu-close" aria-label="Close menu">
+    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+  </button>
+  <a href="#flavors" data-moo-menu-close class="font-serif text-3xl text-moo-cream hover:text-moo-gold transition-colors">Flavors</a>
+  <a href="#process" data-moo-menu-close class="font-serif text-3xl text-moo-cream hover:text-moo-gold transition-colors">Process</a>
+  <a href="#video" data-moo-menu-close class="font-serif text-3xl text-moo-cream hover:text-moo-gold transition-colors">Video</a>
+  <a href="#testimonials" data-moo-menu-close class="font-serif text-3xl text-moo-cream hover:text-moo-gold transition-colors">Reviews</a>
+</div>
+
+<section class="hero-section" id="hero">
+  <div class="hero-atmosphere" aria-hidden="true">
+    <div class="hero-texture"></div>
+    <div class="hero-heat-haze"></div>
+  </div>
+  <div class="hero-fall-layer" id="heroFallLayer" aria-hidden="true"></div>
+  <div class="container mx-auto px-6 relative z-10">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <div class="hero-eyebrow reveal-text" id="heroSubtitle"><span class="reveal-text-inner">MOO Steak Chips - The Art of Crisp</span></div>
+        <h1 class="hero-title mt-5 reveal-text" id="heroTitle"><span class="reveal-text-inner">STEAK CHIPS</span></h1>
+        <p class="hero-desc reveal-text" id="heroDesc"><span class="reveal-text-inner">Real steak, crisped into a light snack with an instant crackle and deep savory finish. Made from grass-fed beef hind leg, slow-crisped for 72 hours with a clean ingredient list and real meat texture.</span></p>
+        <div class="hero-sensory-strip reveal-text" style="transition-delay: 0.24s"><span class="reveal-text-inner">Paper-thin beef crisps</span><span class="reveal-text-inner">Facing heaven heat</span><span class="reveal-text-inner">Addictive crackle</span></div>
+        <div class="hero-proof">
+          <div class="hero-proof-item"><span class="hero-proof-value">72H</span><span class="hero-proof-label">Low-temp crisp</span></div>
+          <div class="hero-proof-item"><span class="hero-proof-value">55g</span><span class="hero-proof-label">Protein / 100g</span></div>
+          <div class="hero-proof-item"><span class="hero-proof-value">0</span><span class="hero-proof-label">No preservatives</span></div>
+        </div>
+        <div class="hero-actions">
+          <div class="reveal-text" style="transition-delay: 0.3s">
+            <span class="reveal-text-inner">
+              <a href="#flavors" class="btn-primary">
+                <span>Shop Now</span>
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+              </a>
+            </span>
+          </div>
+          <div class="hero-note reveal-text" style="transition-delay: 0.45s"><span class="reveal-text-inner">Grass-fed beef - Handcrafted in Virginia</span></div>
+        </div>
+      </div>
+
+      <div class="hero-product" id="heroProduct">
+        <div class="hero-product-shadow"></div>
+        <div class="hero-product-stage">
+          <div class="hero-product-depth"></div>
+          <div class="hero-product-inner">
+            <img src="{{ 'moo-hero-pack-fixed.png' | asset_url }}" alt="MOO product package" class="hero-pack-image">
+          </div>
+        </div>
+        <div class="hero-caption">real steak - low-temp crisp - ultra crispy</div>
+      </div>
+    </div>
+  </div>
+  <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-10">
+    <span class="text-[10px] text-moo-mute tracking-[0.3em] uppercase font-light">Scroll to explore</span>
+    <div class="w-px h-16 bg-gradient-to-b from-moo-goldDim to-transparent"></div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MOO Hero",
+  "settings": [],
+  "presets": [
+    {
+      "name": "MOO Hero"
+    }
+  ]
+}
+{% endschema %}

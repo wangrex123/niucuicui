@@ -1,0 +1,54 @@
+<footer class="main-footer">
+  <div class="container mx-auto px-6">
+    <div class="grid md:grid-cols-4 gap-16 mb-20">
+      <div>
+        <div class="font-serif text-3xl text-moo-goldLight mb-6">MOO</div>
+        <p class="text-moo-mute text-sm leading-relaxed">One crisp bite, full beef flavor.<br>Redefining the beef snack.</p>
+      </div>
+      <div>
+        <h4 class="text-xs tracking-[0.2em] uppercase text-moo-mute mb-6">Product</h4>
+        <ul class="space-y-3 text-sm text-moo-mute">
+          <li><a href="#flavors" class="moo-footer-link">Facing Heaven Spicy</a></li>
+          <li><a href="#flavors" class="moo-footer-link">Facing Heaven Mild</a></li>
+          <li><a href="{{ routes.all_products_collection_url }}" class="moo-footer-link">Shop all</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-xs tracking-[0.2em] uppercase text-moo-mute mb-6">Company</h4>
+        <ul class="space-y-3 text-sm text-moo-mute">
+          <li><a href="#process" class="moo-footer-link">Production process</a></li>
+          <li><a href="#video" class="moo-footer-link">Behind the scenes</a></li>
+          <li><a href="#testimonials" class="moo-footer-link">Crunch reviews</a></li>
+          <li><a href="{{ routes.root_url }}pages/contact" class="moo-footer-link">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-xs tracking-[0.2em] uppercase text-moo-mute mb-6">Social</h4>
+        <div class="flex gap-3">
+          {% if settings.social_x_link != blank %}<a href="{{ settings.social_x_link }}" class="w-10 h-10 rounded-xl bg-moo-surface border border-moo-border flex items-center justify-center text-moo-mute hover:text-moo-gold hover:border-moo-goldDim transition-all duration-300 text-xs font-semibold">X</a>{% endif %}
+          {% if settings.social_instagram_link != blank %}<a href="{{ settings.social_instagram_link }}" class="w-10 h-10 rounded-xl bg-moo-surface border border-moo-border flex items-center justify-center text-moo-mute hover:text-moo-gold hover:border-moo-goldDim transition-all duration-300 text-xs font-semibold">IG</a>{% endif %}
+          {% if settings.social_tiktok_link != blank %}<a href="{{ settings.social_tiktok_link }}" class="w-10 h-10 rounded-xl bg-moo-surface border border-moo-border flex items-center justify-center text-moo-mute hover:text-moo-gold hover:border-moo-goldDim transition-all duration-300 text-xs font-semibold">TT</a>{% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="pt-10 border-t border-moo-border flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-moo-mute">
+      <p>&copy; {{ 'now' | date: '%Y' }} MOO Steak Chips</p>
+      <div class="flex gap-8">
+        {% if shop.privacy_policy != blank %}<a href="{{ shop.privacy_policy.url }}" class="moo-footer-link">Privacy Policy</a>{% endif %}
+        {% if shop.terms_of_service != blank %}<a href="{{ shop.terms_of_service.url }}" class="moo-footer-link">Terms of Service</a>{% endif %}
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "MOO Footer",
+  "settings": [],
+  "presets": [
+    {
+      "name": "MOO Footer"
+    }
+  ]
+}
+{% endschema %}
