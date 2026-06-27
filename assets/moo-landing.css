@@ -603,13 +603,13 @@
     }
     .flavor-title {
       font-family: 'Noto Serif SC', serif;
-      font-size: clamp(2.7rem, 3.7vw, 4.1rem);
+      font-size: clamp(2.1rem, 2.75vw, 3.2rem);
       font-weight: 800;
       color: var(--cream);
-      margin-bottom: 0.7rem;
-      line-height: 0.9;
+      margin-bottom: 0.85rem;
+      line-height: 0.92;
       letter-spacing: -0.04em;
-      max-width: 18.5rem;
+      max-width: 20rem;
       position: relative;
       z-index: 1;
     }
@@ -648,8 +648,8 @@
     }
     .flavor-body-layout {
       display: grid;
-      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
-      gap: clamp(1.8rem, 2.8vw, 2.8rem);
+      grid-template-columns: minmax(0, 1.18fr) minmax(280px, 0.82fr);
+      gap: clamp(1.3rem, 2.1vw, 2.1rem);
       align-items: stretch;
       flex: 1;
     }
