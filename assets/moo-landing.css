@@ -1,4 +1,6 @@
 
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
     :root { --gold: #c9a227; --gold-light: #e8d5a3; --void: #000000; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: auto; }
@@ -193,11 +195,11 @@
       flex-shrink: 0;
     }
     .hero-title {
-      font-family: 'Noto Serif SC', serif;
-      font-size: clamp(4.4rem, 10vw, 8.6rem);
-      line-height: 0.9;
-      font-weight: 900;
-      letter-spacing: -0.08em;
+      font-family: 'Bebas Neue', 'Arial Narrow', sans-serif;
+      font-size: clamp(4.9rem, 10.5vw, 9.4rem);
+      line-height: 0.88;
+      font-weight: 400;
+      letter-spacing: 0.01em;
       background: linear-gradient(180deg, #fff9ee 0%, #f5e7c9 35%, #d8ae48 68%, #9d3218 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -601,16 +603,19 @@
     }
     .flavor-title {
       font-family: 'Noto Serif SC', serif;
-      font-size: clamp(2.85rem, 4.1vw, 4.5rem);
+      font-size: clamp(2.7rem, 3.7vw, 4.1rem);
       font-weight: 800;
       color: var(--cream);
       margin-bottom: 0.7rem;
       line-height: 0.9;
       letter-spacing: -0.04em;
-      max-width: 16rem;
-      text-wrap: balance;
+      max-width: 18.5rem;
       position: relative;
       z-index: 1;
+    }
+    .flavor-title-line {
+      display: block;
+      white-space: nowrap;
     }
     .flavor-en {
       font-size: 0.72rem;
@@ -1234,7 +1239,7 @@
       .main-nav { padding: 1rem 1.5rem; }
     }
     @media (max-width: 768px) {
-      .hero-title { font-size: clamp(3.5rem, 20vw, 5.8rem); }
+      .hero-title { font-size: clamp(4.2rem, 22vw, 6.4rem); }
       .hero-desc { font-size: 0.95rem; }
       .hero-proof { grid-template-columns: 1fr; max-width: none; }
       .hero-product { width: min(84vw, 340px); }
@@ -1250,6 +1255,7 @@
       .flavor-card { padding: 1.75rem; border-radius: 26px; }
       .flavor-card::after { border-radius: 25px; }
       .flavor-title { max-width: none; font-size: clamp(2.35rem, 11vw, 3.6rem); }
+      .flavor-title-line { white-space: normal; }
       .flavor-en { font-size: 0.68rem; letter-spacing: 0.18em; }
       .flavor-glyph { right: 1rem; top: 1.4rem; font-size: clamp(4.7rem, 18vw, 6.2rem); }
       .flavor-scene {

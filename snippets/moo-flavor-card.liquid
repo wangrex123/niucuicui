@@ -8,7 +8,15 @@
     <div class="flavor-copy-stack">
       <div class="flavor-num">{{ number_label }}</div>
       <div class="flavor-mood">{{ mood }}</div>
-      <h3 class="flavor-title">{{ title }}</h3>
+      <h3 class="flavor-title">
+        {% if title_lines != blank %}
+          {% for line in title_lines %}
+            <span class="flavor-title-line">{{ line }}</span>
+          {% endfor %}
+        {% else %}
+          {{ title }}
+        {% endif %}
+      </h3>
       <div class="flavor-en">{{ subtitle }}</div>
       <p class="flavor-desc">{{ description }}</p>
       <div class="flavor-profile">
