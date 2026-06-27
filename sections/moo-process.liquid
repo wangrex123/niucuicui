@@ -2,10 +2,18 @@
   <section class="process-section" id="process">
     <div class="process-sticky">
       <!-- Background Images (replace background: CSS with real images) -->
-      <div class="process-bg" id="bg1" style="background-image: url('{{ 'moo-process-bg1.png' | asset_url }}')"></div>
-      <div class="process-bg" id="bg2" style="background-image: url('{{ 'moo-process-bg2.png' | asset_url }}')"></div>
-      <div class="process-bg" id="bg3" style="background-image: url('{{ 'moo-process-bg3.png' | asset_url }}')"></div>
-      <div class="process-bg" id="bg4" style="background-image: url('{{ 'moo-process-bg4.png' | asset_url }}')"></div>
+      <div class="process-bg" id="bg1">
+        <img src="{{ 'moo-process-bg1.png' | asset_url }}" alt="" class="process-bg-image" decoding="async">
+      </div>
+      <div class="process-bg" id="bg2">
+        <img src="{{ 'moo-process-bg2.png' | asset_url }}" alt="" class="process-bg-image" decoding="async">
+      </div>
+      <div class="process-bg" id="bg3">
+        <img src="{{ 'moo-process-bg3.png' | asset_url }}" alt="" class="process-bg-image" decoding="async">
+      </div>
+      <div class="process-bg" id="bg4">
+        <img src="{{ 'moo-process-bg4.png' | asset_url }}" alt="" class="process-bg-image" decoding="async">
+      </div>
 
       <div class="absolute top-12 left-1/2 -translate-x-1/2 text-center z-20">
         <span class="text-[10px] text-moo-goldDim tracking-[0.3em] uppercase font-light">Process</span>
