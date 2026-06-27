@@ -603,24 +603,30 @@
     }
     .flavor-title {
       font-family: 'Noto Serif SC', serif;
-      font-size: clamp(1.9rem, 2.35vw, 2.8rem);
+      font-size: clamp(1.85rem, 2.2vw, 2.55rem);
       font-weight: 800;
       color: var(--cream);
-      margin-bottom: 0.85rem;
+      margin-bottom: 0.95rem;
       line-height: 1;
       letter-spacing: -0.04em;
-      max-width: 17rem;
-      display: inline-flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.08em;
+      max-width: 16rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.14em;
       position: relative;
       z-index: 1;
     }
     .flavor-title-line {
       display: block;
       white-space: nowrap;
-      line-height: 0.92;
+      line-height: 0.94;
+    }
+    .flavor-title-primary,
+    .flavor-title-secondary {
+      width: 100%;
+    }
+    .flavor-title-secondary {
+      font-size: 0.9em;
     }
     .flavor-en {
       font-size: 0.72rem;
@@ -664,7 +670,7 @@
       position: relative;
       z-index: 1;
       min-width: 0;
-      max-width: 17.5rem;
+      max-width: 16.5rem;
       padding-right: 0;
     }
     .flavor-scene {

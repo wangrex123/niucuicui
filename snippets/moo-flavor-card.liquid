@@ -9,7 +9,10 @@
       <div class="flavor-num">{{ number_label }}</div>
       <div class="flavor-mood">{{ mood }}</div>
       <h3 class="flavor-title">
-        {% if title_lines != blank %}
+        {% if title_primary != blank %}
+          <span class="flavor-title-line flavor-title-primary">{{ title_primary }}</span>
+          <span class="flavor-title-line flavor-title-secondary">{{ title_secondary }}</span>
+        {% elsif title_lines != blank %}
           {% for line in title_lines %}
             <span class="flavor-title-line">{{ line }}</span>
           {% endfor %}
