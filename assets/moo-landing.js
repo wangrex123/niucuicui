@@ -25,20 +25,22 @@
 
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const fallAssets = {
-        pepperA: './hero-fall-pepper-a.png',
-        pepperB: './hero-fall-pepper-b.png',
-            chipA: './hero-fall-chip-a-v2.png',
-            chipB: './hero-fall-chip-b-v2.png',
-            chipC: './hero-fall-chip-c-v2.png'
+        pepperA: layer.dataset.pepperA,
+        pepperB: layer.dataset.pepperB,
+        chipA: layer.dataset.chipA,
+        chipB: layer.dataset.chipB,
+        chipC: layer.dataset.chipC
       };
 
       const assetPool = [
-            { type: 'chip', asset: fallAssets.chipA, ratio: 249 / 98 },
-            { type: 'chip', asset: fallAssets.chipB, ratio: 216 / 96 },
-            { type: 'chip', asset: fallAssets.chipC, ratio: 201 / 77 },
+        { type: 'chip', asset: fallAssets.chipA, ratio: 249 / 98 },
+        { type: 'chip', asset: fallAssets.chipB, ratio: 216 / 96 },
+        { type: 'chip', asset: fallAssets.chipC, ratio: 201 / 77 },
         { type: 'pepper', asset: fallAssets.pepperA, ratio: 69 / 300 },
         { type: 'pepper', asset: fallAssets.pepperB, ratio: 77 / 273 }
       ];
+      const chipAssets = assetPool.filter((item) => item.type === 'chip');
+      const pepperAssets = assetPool.filter((item) => item.type === 'pepper');
       const seeded = (seed) => () => {
         seed |= 0;
         seed = (seed + 0x6D2B79F5) | 0;
@@ -50,24 +52,26 @@
       const range = (min, max) => min + (max - min) * rand();
       const pick = (list) => list[Math.floor(rand() * list.length)];
       const sign = () => (rand() < 0.5 ? -1 : 1);
-      const weightedAsset = () => {
+      const weightedAsset = (bandName) => {
+        if (bandName === 'background') return pick(chipAssets);
+        if (bandName === 'foreground') return rand() < 0.9 ? pick(chipAssets) : pick(pepperAssets);
+
         const r = rand();
-        if (r < 0.28) return assetPool[0];
-        if (r < 0.5) return assetPool[1];
-        if (r < 0.68) return assetPool[2];
-        if (r < 0.84) return assetPool[3];
-        return assetPool[4];
+        if (r < 0.36) return chipAssets[0];
+        if (r < 0.66) return chipAssets[1];
+        if (r < 0.88) return chipAssets[2];
+        return pick(pepperAssets);
       };
       const depthBands = window.innerWidth < 768
         ? [
-            { name: 'background', count: 10, placement: 'free', chipWidth: [14, 28], pepperWidth: [6, 10], blur: [2.3, 4.4], opacity: [0.14, 0.24], saturate: [0.72, 0.9], contrast: [0.9, 1], brightness: [0.72, 0.9], hue: [-15, -5], scale: [0.86, 1], fall: [0.44, 0.78], float: [9, 14], floatX: [3, 10], floatY: [-12, -4], drift: [0.012, 0.036], rotateSpan: [18, 46], x: [2, 98], y: [0, 86], spacingX: 8, spacingY: 10, zIndex: 1 },
-            { name: 'focus', count: 8, placement: 'free', chipWidth: [20, 40], pepperWidth: [7, 13], blur: [0.08, 0.62], opacity: [0.3, 0.52], saturate: [1.04, 1.24], contrast: [1.02, 1.12], brightness: [0.98, 1.12], hue: [-4, 5], scale: [0.92, 1.08], fall: [0.58, 0.92], float: [7, 12], floatX: [5, 16], floatY: [-18, -6], drift: [0.018, 0.05], rotateSpan: [28, 72], x: [6, 94], y: [4, 82], spacingX: 11, spacingY: 12, zIndex: 2 },
-            { name: 'foreground', count: 5, placement: 'edge', chipWidth: [30, 54], pepperWidth: [9, 16], blur: [1.2, 3.2], opacity: [0.18, 0.32], saturate: [0.9, 1.08], contrast: [0.98, 1.06], brightness: [0.82, 1], hue: [-8, 2], scale: [1, 1.14], fall: [0.78, 1.08], float: [6, 10], floatX: [8, 24], floatY: [-20, -8], drift: [0.026, 0.07], rotateSpan: [36, 88], x: [-10, 110], y: [0, 94], spacingX: 16, spacingY: 16, zIndex: 3 }
+            { name: 'background', count: 10, placement: 'free', chipWidth: [15, 30], pepperWidth: [10, 16], blur: [2, 3.8], opacity: [0.14, 0.22], saturate: [0.72, 0.9], contrast: [0.9, 1], brightness: [0.72, 0.9], hue: [-15, -5], scale: [0.86, 1], fall: [0.44, 0.78], float: [9, 14], floatX: [3, 10], floatY: [-12, -4], drift: [0.012, 0.036], rotateSpan: [18, 46], x: [2, 98], y: [0, 86], spacingX: 8, spacingY: 10, zIndex: 1 },
+            { name: 'focus', count: 8, placement: 'free', chipWidth: [22, 42], pepperWidth: [12, 20], blur: [0.04, 0.44], opacity: [0.32, 0.52], saturate: [1.04, 1.24], contrast: [1.02, 1.12], brightness: [0.98, 1.12], hue: [-4, 5], scale: [0.92, 1.08], fall: [0.58, 0.92], float: [7, 12], floatX: [5, 16], floatY: [-18, -6], drift: [0.018, 0.05], rotateSpan: [28, 72], x: [6, 94], y: [4, 82], spacingX: 11, spacingY: 12, zIndex: 2 },
+            { name: 'foreground', count: 5, placement: 'edge', chipWidth: [32, 56], pepperWidth: [15, 22], blur: [0.8, 2.2], opacity: [0.18, 0.3], saturate: [0.9, 1.08], contrast: [0.98, 1.06], brightness: [0.82, 1], hue: [-8, 2], scale: [1, 1.14], fall: [0.78, 1.08], float: [6, 10], floatX: [8, 24], floatY: [-20, -8], drift: [0.026, 0.07], rotateSpan: [36, 88], x: [-10, 110], y: [0, 94], spacingX: 16, spacingY: 16, zIndex: 3 }
           ]
         : [
-            { name: 'background', count: 18, placement: 'free', chipWidth: [14, 32], pepperWidth: [6, 11], blur: [2.4, 4.8], opacity: [0.14, 0.25], saturate: [0.7, 0.9], contrast: [0.9, 1], brightness: [0.72, 0.88], hue: [-16, -5], scale: [0.86, 1], fall: [0.42, 0.76], float: [9, 15], floatX: [4, 12], floatY: [-16, -5], drift: [0.012, 0.04], rotateSpan: [18, 50], x: [0, 98], y: [0, 88], spacingX: 7, spacingY: 8, zIndex: 1 },
-            { name: 'focus', count: 14, placement: 'free', chipWidth: [20, 46], pepperWidth: [7, 15], blur: [0.06, 0.62], opacity: [0.32, 0.56], saturate: [1.05, 1.25], contrast: [1.02, 1.13], brightness: [0.98, 1.14], hue: [-4, 5], scale: [0.92, 1.1], fall: [0.58, 0.94], float: [7, 12], floatX: [6, 18], floatY: [-18, -6], drift: [0.018, 0.056], rotateSpan: [28, 78], x: [5, 95], y: [4, 84], spacingX: 10, spacingY: 11, zIndex: 2 },
-            { name: 'foreground', count: 8, placement: 'edge', chipWidth: [32, 66], pepperWidth: [10, 19], blur: [1.3, 3.5], opacity: [0.18, 0.34], saturate: [0.9, 1.1], contrast: [0.98, 1.07], brightness: [0.82, 1], hue: [-8, 2], scale: [1, 1.18], fall: [0.78, 1.12], float: [6, 10], floatX: [9, 26], floatY: [-24, -9], drift: [0.026, 0.076], rotateSpan: [36, 92], x: [-12, 110], y: [-2, 96], spacingX: 15, spacingY: 16, zIndex: 3 }
+            { name: 'background', count: 18, placement: 'free', chipWidth: [15, 34], pepperWidth: [11, 18], blur: [2.1, 4], opacity: [0.14, 0.24], saturate: [0.7, 0.9], contrast: [0.9, 1], brightness: [0.72, 0.88], hue: [-16, -5], scale: [0.86, 1], fall: [0.42, 0.76], float: [9, 15], floatX: [4, 12], floatY: [-16, -5], drift: [0.012, 0.04], rotateSpan: [18, 50], x: [0, 98], y: [0, 88], spacingX: 7, spacingY: 8, zIndex: 1 },
+            { name: 'focus', count: 14, placement: 'free', chipWidth: [22, 48], pepperWidth: [13, 22], blur: [0.04, 0.48], opacity: [0.32, 0.56], saturate: [1.05, 1.25], contrast: [1.02, 1.13], brightness: [0.98, 1.14], hue: [-4, 5], scale: [0.92, 1.1], fall: [0.58, 0.94], float: [7, 12], floatX: [6, 18], floatY: [-18, -6], drift: [0.018, 0.056], rotateSpan: [28, 78], x: [5, 95], y: [4, 84], spacingX: 10, spacingY: 11, zIndex: 2 },
+            { name: 'foreground', count: 8, placement: 'edge', chipWidth: [34, 68], pepperWidth: [16, 24], blur: [0.9, 2.4], opacity: [0.18, 0.32], saturate: [0.9, 1.1], contrast: [0.98, 1.07], brightness: [0.82, 1], hue: [-8, 2], scale: [1, 1.18], fall: [0.78, 1.12], float: [6, 10], floatX: [9, 26], floatY: [-24, -9], drift: [0.026, 0.076], rotateSpan: [36, 92], x: [-12, 110], y: [-2, 96], spacingX: 15, spacingY: 16, zIndex: 3 }
           ];
       const placed = [];
       const canPlace = (x, y, spacingX, spacingY) => placed.every((p) => !(Math.abs(p.x - x) < (p.spacingX + spacingX) * 0.5 && Math.abs(p.y - y) < (p.spacingY + spacingY) * 0.5));
@@ -103,9 +107,7 @@
         return { x, y };
       };
       const buildConfig = (band) => {
-        const asset = band.name === 'foreground'
-          ? pick(assetPool.filter((item) => item.type === 'chip').concat(assetPool.filter((item) => item.type === 'pepper')))
-          : weightedAsset();
+        const asset = weightedAsset(band.name);
         const width = range(...(asset.type === 'chip' ? band.chipWidth : band.pepperWidth));
         const placement = band.placement === 'edge' ? placeEdge(band) : placeFree(band);
         const rotateStart = range(-22, 22);
@@ -257,4 +259,3 @@
 
   document.addEventListener('shopify:section:load', bindMooLandingInteractions);
 })();
-

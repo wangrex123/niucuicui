@@ -601,22 +601,23 @@
     }
     .flavor-title {
       font-family: 'Noto Serif SC', serif;
-      font-size: clamp(3rem, 5.2vw, 4.9rem);
+      font-size: clamp(2.85rem, 4.1vw, 4.5rem);
       font-weight: 800;
       color: var(--cream);
-      margin-bottom: 0.55rem;
-      line-height: 0.95;
+      margin-bottom: 0.7rem;
+      line-height: 0.9;
       letter-spacing: -0.04em;
-      max-width: 12rem;
+      max-width: 16rem;
+      text-wrap: balance;
       position: relative;
       z-index: 1;
     }
     .flavor-en {
-      font-size: 0.75rem;
-      letter-spacing: 0.24em;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--mute);
-      margin-bottom: 2rem;
+      margin-bottom: 1.55rem;
       position: relative;
       z-index: 1;
     }
@@ -633,17 +634,17 @@
     }
     .flavor-desc {
       color: rgba(234,229,223,0.8);
-      max-width: 28rem;
-      line-height: 1.9;
-      margin-bottom: 2rem;
-      font-size: 0.98rem;
+      max-width: 25rem;
+      line-height: 1.82;
+      margin-bottom: 1.8rem;
+      font-size: 0.94rem;
       position: relative;
       z-index: 1;
     }
     .flavor-body-layout {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(260px, 0.9fr);
-      gap: clamp(1.5rem, 2.4vw, 2.35rem);
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+      gap: clamp(1.8rem, 2.8vw, 2.8rem);
       align-items: stretch;
       flex: 1;
     }
@@ -653,6 +654,7 @@
       position: relative;
       z-index: 1;
       min-width: 0;
+      padding-right: clamp(0rem, 1vw, 0.6rem);
     }
     .flavor-scene {
       position: relative;
@@ -1068,7 +1070,8 @@
       border: 1px solid rgba(255,255,255,0.08);
       background: rgba(255,255,255,0.04);
       font-size: 0.72rem;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.03em;
+      line-height: 1.35;
       color: var(--cream);
     }
     .flavor-footer {
@@ -1089,7 +1092,7 @@
     }
     .flavor-price-value {
       font-family: 'Inter Tight', 'Noto Sans SC', sans-serif;
-      font-size: 2.8rem;
+      font-size: 2.6rem;
       font-weight: 700;
       letter-spacing: -0.04em;
       color: var(--cream);
@@ -1246,7 +1249,7 @@
       .showdown-copy { font-size: 0.92rem; line-height: 1.8; }
       .flavor-card { padding: 1.75rem; border-radius: 26px; }
       .flavor-card::after { border-radius: 25px; }
-      .flavor-title { max-width: none; font-size: clamp(2.4rem, 12vw, 3.8rem); }
+      .flavor-title { max-width: none; font-size: clamp(2.35rem, 11vw, 3.6rem); }
       .flavor-en { font-size: 0.68rem; letter-spacing: 0.18em; }
       .flavor-glyph { right: 1rem; top: 1.4rem; font-size: clamp(4.7rem, 18vw, 6.2rem); }
       .flavor-scene {
