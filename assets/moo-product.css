@@ -1,0 +1,154 @@
+body.moo-product-page {
+  background:
+    radial-gradient(ellipse at 80% 16%, rgba(142, 18, 20, 0.18), transparent 0 32%),
+    radial-gradient(ellipse at 18% 8%, rgba(201, 162, 39, 0.08), transparent 0 26%),
+    linear-gradient(180deg, #050404 0%, #0b0706 38%, #050404 100%);
+  color: #f5f0e8;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.moo-product-page .section-header-shopify-section-group,
+.moo-product-page .section-footer-shopify-section-group {
+  position: relative;
+  z-index: 5;
+}
+
+.moo-product-page #MainContent {
+  position: relative;
+  z-index: 1;
+}
+
+.moo-product-page .shopify-section {
+  position: relative;
+}
+
+.moo-product-page .shopify-section.section-main-product {
+  padding: 2rem 0 4rem;
+}
+
+.moo-product-page .product {
+  border-radius: 32px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0) 20%),
+    linear-gradient(160deg, rgba(34,18,16,0.9) 0%, rgba(11,9,9,0.96) 56%, rgba(7,7,7,0.98) 100%);
+  box-shadow: 0 30px 90px rgba(0,0,0,0.34);
+  overflow: hidden;
+}
+
+.moo-product-page .product__media-wrapper,
+.moo-product-page .product__info-wrapper {
+  padding: clamp(2rem, 3vw, 3.25rem);
+}
+
+.moo-product-page .product__media-wrapper {
+  background:
+    radial-gradient(circle at 70% 18%, rgba(201,162,39,0.08), transparent 24%),
+    linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0) 18%);
+}
+
+.moo-product-page .product__media img,
+.moo-product-page .product__media video,
+.moo-product-page .product__media model-viewer,
+.moo-product-page .product__modal-opener {
+  border-radius: 24px;
+}
+
+.moo-product-page .product__title h1 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(3rem, 4.8vw, 5.25rem);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+  color: #f5f0e8;
+  margin-bottom: 0;
+}
+
+.moo-product-page .product__text,
+.moo-product-page .product__description,
+.moo-product-page .product__tax,
+.moo-product-page .product__sku,
+.moo-product-page .product__inventory,
+.moo-product-page .product__accordion .accordion__content,
+.moo-product-page .product-form__input .form__label,
+.moo-product-page .quantity__label {
+  color: rgba(245,240,232,0.72);
+}
+
+.moo-product-page .product__info-container > * + * {
+  margin-top: 1.7rem;
+}
+
+.moo-product-page .price,
+.moo-product-page .price-item,
+.moo-product-page .price__sale,
+.moo-product-page .price__regular {
+  color: #f5f0e8;
+}
+
+.moo-product-page .price--large .price-item--regular,
+.moo-product-page .price--large .price-item--sale {
+  font-size: clamp(2rem, 3vw, 2.9rem);
+  letter-spacing: -0.04em;
+}
+
+.moo-product-page .product-form__input input,
+.moo-product-page .product-form__input select,
+.moo-product-page .select select,
+.moo-product-page quantity-input.quantity {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.12);
+  color: #f5f0e8;
+}
+
+.moo-product-page .product-form__submit,
+.moo-product-page .shopify-payment-button__button,
+.moo-product-page .button {
+  border-radius: 999px;
+}
+
+.moo-product-page .product-form__submit {
+  background: linear-gradient(135deg, #d2ab35, #a57918);
+  color: #090807;
+  border: 0;
+  box-shadow: 0 16px 34px rgba(0,0,0,0.28);
+}
+
+.moo-product-page .product-form__submit:hover,
+.moo-product-page .product-form__submit:focus-visible {
+  background: linear-gradient(135deg, #e3bd4b, #b88a1f);
+}
+
+.moo-product-page .accordion {
+  border-color: rgba(255,255,255,0.08);
+}
+
+.moo-product-page .accordion summary,
+.moo-product-page .accordion__title,
+.moo-product-page .product__description-title {
+  color: #f5f0e8;
+}
+
+.moo-product-page .thumbnail {
+  background: rgba(255,255,255,0.03);
+  border-color: rgba(255,255,255,0.08);
+}
+
+.moo-product-page .thumbnail[aria-current] {
+  border-color: rgba(201,162,39,0.75);
+}
+
+.moo-product-page .share-button__button,
+.moo-product-page .product__view-details {
+  color: rgba(232,213,163,0.82);
+}
+
+@media screen and (max-width: 989px) {
+  .moo-product-page .product__media-wrapper,
+  .moo-product-page .product__info-wrapper {
+    padding: 1.5rem;
+  }
+
+  .moo-product-page .product__title h1 {
+    font-size: clamp(2.4rem, 10vw, 4rem);
+  }
+}

@@ -319,10 +319,12 @@
         document.documentElement.classList.add('shopify-design-mode');
       }
     </script>
-    {% if template.name == 'index' %}
+    {% if template.name == 'index' or template.name == 'product' %}
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@400;500;600;700;900&family=Space+Grotesk:wght@300;400;500;600;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    {% endif %}
+    {% if template.name == 'index' %}
       <script>
         tailwind.config = {
           theme: {
@@ -357,10 +359,12 @@
       {{ 'moo-landing.css' | asset_url | stylesheet_tag }}
       <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
       <script src="{{ 'moo-landing.js' | asset_url }}" defer="defer"></script>
+    {% elsif template.name == 'product' %}
+      {{ 'moo-product.css' | asset_url | stylesheet_tag }}
     {% endif %}
   </head>
 
-  <body class="gradient{% if template.name == 'index' %} moo-landing-index{% endif %}{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
+  <body class="gradient{% if template.name == 'index' %} moo-landing-index{% endif %}{% if template.name == 'product' %} moo-product-page{% endif %}{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
     </a>

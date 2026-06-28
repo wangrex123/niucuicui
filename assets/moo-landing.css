@@ -616,6 +616,15 @@
       position: relative;
       z-index: 1;
     }
+    .flavor-title-link {
+      display: grid;
+      gap: inherit;
+      color: inherit;
+      text-decoration: none;
+    }
+    .flavor-title-link:hover {
+      color: var(--gold-light);
+    }
     .flavor-title-line {
       display: block;
       white-space: nowrap;
@@ -869,6 +878,11 @@
       width: 100%;
       height: auto;
       z-index: 2;
+    }
+    .scene-pack-link {
+      display: block;
+      color: inherit;
+      text-decoration: none;
     }
     .flavor-scene-spicy .scene-pack-image {
       filter: drop-shadow(0 30px 50px rgba(0,0,0,0.58)) drop-shadow(0 0 34px rgba(174, 38, 20, 0.22)) saturate(1.05) contrast(1.03);
@@ -1346,6 +1360,11 @@ body.moo-landing-index .shopify-section {
 
 .moo-landing-index .moo-flavor-link:hover {
   color: var(--gold-light);
+}
+
+.moo-landing-index .moo-flavor-link-disabled {
+  opacity: 0.56;
+  pointer-events: none;
 }
 
 .moo-landing-index .moo-cart-link svg,

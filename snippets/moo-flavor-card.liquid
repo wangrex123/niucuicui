@@ -1,6 +1,37 @@
 {% liquid
   assign current_variant = product.selected_or_first_available_variant
   assign form_id = 'product-form-' | append: section_id | append: '-' | append: flavor_key
+  assign product_url = '#'
+  assign display_title = fallback_title | default: title | default: 'Flavor coming soon'
+  assign pack_meta = '4 OZ / 100G BAG'
+  assign display_price = '$20'
+  assign image_alt = display_title | append: ' package'
+  assign title_primary_render = title_primary
+  assign title_secondary_render = title_secondary
+
+  if product != blank
+    assign product_url = product.url
+    assign display_title = product.title
+    if display_title contains '—'
+      assign title_parts = display_title | split: '—'
+      assign display_title = title_parts | last | strip
+    elsif display_title contains '-'
+      assign title_parts = display_title | split: '-'
+      assign display_title = title_parts | last | strip
+    endif
+    assign display_price = current_variant.price | money
+    assign pack_meta = product.metafields.custom.pack_size.value | default: pack_meta
+    assign image_alt = product.title | append: ' package'
+
+    assign title_words = display_title | split: ' '
+    if title_words.size > 1
+      assign title_primary_render = title_words | first
+      assign title_secondary_render = display_title | remove_first: title_primary_render | strip
+    else
+      assign title_primary_render = display_title
+      assign title_secondary_render = blank
+    endif
+  endif
 %}
 <article class="flavor-card {{ card_class }}">
   <div class="flavor-glyph">{{ glyph }}</div>
@@ -9,15 +40,24 @@
       <div class="flavor-num">{{ number_label }}</div>
       <div class="flavor-mood">{{ mood }}</div>
       <h3 class="flavor-title">
-        {% if title_primary != blank %}
-          <span class="flavor-title-line flavor-title-primary">{{ title_primary }}</span>
-          <span class="flavor-title-line flavor-title-secondary">{{ title_secondary }}</span>
+        {% if product != blank and title_primary_render != blank %}
+          <a href="{{ product_url }}" class="flavor-title-link">
+            <span class="flavor-title-line flavor-title-primary">{{ title_primary_render }}</span>
+            {% if title_secondary_render != blank %}
+              <span class="flavor-title-line flavor-title-secondary">{{ title_secondary_render }}</span>
+            {% endif %}
+          </a>
+        {% elsif title_primary_render != blank %}
+          <span class="flavor-title-line flavor-title-primary">{{ title_primary_render }}</span>
+          {% if title_secondary_render != blank %}
+            <span class="flavor-title-line flavor-title-secondary">{{ title_secondary_render }}</span>
+          {% endif %}
         {% elsif title_lines != blank %}
           {% for line in title_lines %}
             <span class="flavor-title-line">{{ line }}</span>
           {% endfor %}
         {% else %}
-          {{ title }}
+          {{ display_title }}
         {% endif %}
       </h3>
       <div class="flavor-en">{{ subtitle }}</div>
@@ -36,7 +76,22 @@
       <div class="scene-glow scene-glow-b"></div>
       <div class="scene-pack-shell"></div>
       <div class="scene-pack-wrap">
-        <img src="{{ asset_image | asset_url }}" alt="{{ title }} package" class="scene-pack-image">
+        {% if product != blank %}
+          <a href="{{ product_url }}" class="scene-pack-link">
+            {% if product.featured_media != blank %}
+              <img
+                src="{{ product.featured_media | image_url: width: 900 }}"
+                alt="{{ image_alt }}"
+                class="scene-pack-image"
+                loading="lazy"
+              >
+            {% else %}
+              <img src="{{ asset_image | asset_url }}" alt="{{ image_alt }}" class="scene-pack-image">
+            {% endif %}
+          </a>
+        {% else %}
+          <img src="{{ asset_image | asset_url }}" alt="{{ image_alt }}" class="scene-pack-image">
+        {% endif %}
         <div class="scene-pack-tag">{{ scene_tag }}</div>
       </div>
       <div class="scene-caption">{{ scene_caption }}</div>
@@ -44,8 +99,8 @@
   </div>
   <div class="flavor-footer">
     <div class="flavor-price">
-      <span class="flavor-price-value">$20</span>
-      <span class="flavor-price-meta">50g / bag</span>
+      <span class="flavor-price-value">{{ display_price }}</span>
+      <span class="flavor-price-meta">{{ pack_meta | upcase }}</span>
     </div>
     <div class="flex items-center gap-4">
       {% if product != blank and current_variant != blank %}
@@ -65,7 +120,10 @@
         </product-form>
         <a href="{{ product.url }}" class="moo-flavor-link">View details</a>
       {% else %}
-        <a href="{{ routes.all_products_collection_url }}" class="btn-primary btn-duel">Explore flavor</a>
+        <button type="button" class="btn-primary btn-duel moo-submit" disabled>
+          <span>Product coming soon</span>
+        </button>
+        <span class="moo-flavor-link moo-flavor-link-disabled">Select product in theme editor</span>
       {% endif %}
     </div>
   </div>

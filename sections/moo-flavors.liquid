@@ -3,7 +3,7 @@
     <div class="showdown-heading">
       <span class="text-[10px] text-moo-goldDim tracking-[0.3em] uppercase font-light">Collection</span>
       <h2 class="showdown-title">Two flavors, two moods</h2>
-      <p class="showdown-copy">The same facing heaven chili and grass-fed beef, split into two completely different personalities. One hits harder, louder, and hotter from the very first bite. The other keeps the spice smoother, easier to snack on, and better for everyday repeat opens.</p>
+      <p class="showdown-copy">M&#332;&#332; Steak Chips opens with two distinct expressions. Holy Heat lands first with a brighter pepper strike and a harder snap. Honey Blaze eases in with a warmer glow, deeper beef sweetness, and a smoother everyday finish.</p>
     </div>
     <div class="showdown-stage">
       {% capture spicy_profile %}
@@ -11,7 +11,7 @@
         <div class="profile-row"><span class="profile-label">Pepper</span><div class="profile-track"><i class="active"></i><i class="active"></i><i class="active"></i><i class="active"></i><i></i></div><span class="profile-value">bright</span></div>
         <div class="profile-row"><span class="profile-label">Finish</span><div class="profile-track"><i class="active"></i><i class="active"></i><i class="active"></i><i></i><i></i></div><span class="profile-value">fast hit</span></div>
       {% endcapture %}
-      {% render 'moo-flavor-card', product: section.settings.spicy_product, section_id: section.id, flavor_key: 'spicy', card_class: 'flavor-card-spicy', glyph: 'HOT', number_label: '01 / 02', mood: 'For bold cravings', title: 'Facing Heaven Spicy', title_primary: 'Facing Heaven', title_secondary: 'Spicy', subtitle: 'Bold chili cut', description: 'The aroma and heat of facing heaven chili rush in first, followed by the clean snap and savory finish of beef hind leg. Built for people who want a first bite that leaves a mark and turns the heat on right away.', profile_markup: spicy_profile, notes: 'Fast front heat|Bigger chili aroma|Made for spice lovers' | split: '|', scene_class: 'flavor-scene-spicy', scene_badge: 'High Heat', scene_tag: 'spicy cut', scene_caption: 'front-loaded pepper heat with a faster, brighter hit', button_label: 'Choose Spicy', asset_image: 'moo-pack-spicy-v1.png' %}
+      {% render 'moo-flavor-card', product: section.settings.holy_heat_product, section_id: section.id, flavor_key: 'holy-heat', card_class: 'flavor-card-spicy', glyph: 'HOT', number_label: '01 / 02', mood: 'For bold cravings', fallback_title: 'Holy Heat', title_primary: 'Holy', title_secondary: 'Heat', subtitle: 'Bright pepper strike', description: 'Holy Heat brings the facing heaven chili forward immediately, then lets the clean crackle and savory beef finish land hard. Built for the first bite that feels loud, vivid, and unforgettable.', profile_markup: spicy_profile, notes: 'Fast front heat|Bigger chili aroma|Made for spice lovers' | split: '|', scene_class: 'flavor-scene-spicy', scene_badge: 'Holy Heat', scene_tag: 'holy heat', scene_caption: 'front-loaded pepper heat with a brighter, harder snap', button_label: 'Add to cart', asset_image: 'moo-pack-spicy-v1.png' %}
       <div class="showdown-divider" aria-hidden="true">
         <div class="showdown-divider-badge">VS</div>
         <div class="showdown-divider-copy">same beef different heat</div>
@@ -21,7 +21,7 @@
         <div class="profile-row"><span class="profile-label">Pepper</span><div class="profile-track"><i class="active"></i><i class="active"></i><i class="active"></i><i></i><i></i></div><span class="profile-value">warm</span></div>
         <div class="profile-row"><span class="profile-label">Finish</span><div class="profile-track"><i class="active"></i><i class="active"></i><i class="active"></i><i class="active"></i><i></i></div><span class="profile-value">longer</span></div>
       {% endcapture %}
-      {% render 'moo-flavor-card', product: section.settings.mild_product, section_id: section.id, flavor_key: 'mild', card_class: 'flavor-card-mild', glyph: 'MILD', number_label: '02 / 02', mood: 'For everyday stash', title: 'Facing Heaven Mild', title_primary: 'Facing Heaven', title_secondary: 'Mild', subtitle: 'Smooth chili cut', description: 'It keeps the bright red aroma of facing heaven chili while pulling the heat into a smoother, easier finish. Best for everyday stocking: crisp, savory, lightly hot, and deeply snackable without covering up the natural sweetness of the beef.', profile_markup: mild_profile, notes: 'Easy mild heat|More beef-forward|Perfect for daily snacking' | split: '|', scene_class: 'flavor-scene-mild', scene_badge: 'Easy Heat', scene_tag: 'mild cut', scene_caption: 'warmer aroma, softer heat, longer everyday finish', button_label: 'Choose Mild', asset_image: 'moo-pack-mild-v1.png' %}
+      {% render 'moo-flavor-card', product: section.settings.honey_blaze_product, section_id: section.id, flavor_key: 'honey-blaze', card_class: 'flavor-card-mild', glyph: 'MILD', number_label: '02 / 02', mood: 'For everyday stash', fallback_title: 'Honey Blaze', title_primary: 'Honey', title_secondary: 'Blaze', subtitle: 'Warm amber finish', description: 'Honey Blaze keeps the chili warm and aromatic while letting the sweeter side of the beef linger longer. It is the smoother, easier bag for repeat opens and slower snacking.', profile_markup: mild_profile, notes: 'Easy mild heat|More beef-forward|Perfect for daily snacking' | split: '|', scene_class: 'flavor-scene-mild', scene_badge: 'Honey Blaze', scene_tag: 'honey blaze', scene_caption: 'warmer aroma, softer heat, and a longer everyday finish', button_label: 'Add to cart', asset_image: 'moo-pack-mild-v1.png' %}
     </div>
   </div>
 </section>
@@ -32,13 +32,13 @@
   "settings": [
     {
       "type": "product",
-      "id": "spicy_product",
-      "label": "Spicy product"
+      "id": "holy_heat_product",
+      "label": "Holy Heat product"
     },
     {
       "type": "product",
-      "id": "mild_product",
-      "label": "Mild product"
+      "id": "honey_blaze_product",
+      "label": "Honey Blaze product"
     }
   ],
   "presets": [
