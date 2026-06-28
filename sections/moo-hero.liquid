@@ -42,7 +42,6 @@
 </div>
 
 <section class="hero-section" id="hero">
-  <div class="hero-background" style="background-image: url('{{ hero_duo_image_url }}');" aria-hidden="true"></div>
   <div class="hero-atmosphere" aria-hidden="true">
     <div class="hero-texture"></div>
     <div class="hero-heat-haze"></div>
@@ -57,6 +56,7 @@
     data-chip-b="{{ 'hero-fall-chip-b-v2.png' | asset_url }}"
     data-chip-c="{{ 'hero-fall-chip-c-v2.png' | asset_url }}"
   ></div>
+  <div class="hero-overlay" aria-hidden="true"></div>
   <div class="container mx-auto px-6 relative z-10">
     <div class="hero-grid">
       <div class="hero-copy">
@@ -82,7 +82,12 @@
         </div>
       </div>
 
-      <div class="hero-product hero-visual-spacer" id="heroProduct" aria-hidden="true"></div>
+      <div class="hero-product hero-product-duo" id="heroProduct" aria-hidden="true">
+        <div class="hero-visual-glow"></div>
+        <div class="hero-visual-image-wrap">
+          <img src="{{ hero_duo_image_url }}" alt="M&#332;&#332; Steak Chips Holy Heat and Honey Blaze hero image" class="hero-pack-image hero-pack-image-duo">
+        </div>
+      </div>
     </div>
   </div>
   <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-10">
