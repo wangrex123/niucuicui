@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "moo-bundle-builder",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
