@@ -19,7 +19,7 @@
   margin: 0 0 1.2rem;
   color: #d0ac52;
   font-size: 1.1rem;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
 }
 
@@ -47,6 +47,38 @@
   align-items: start;
 }
 
+.moo-bundle__items-column {
+  display: grid;
+  gap: 1.8rem;
+}
+
+.moo-bundle__presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.moo-bundle__preset {
+  border: 1px solid rgba(212, 174, 92, 0.2);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  color: #f4ede3;
+  min-height: 4.6rem;
+  padding: 0 1.6rem;
+  font-size: 1.05rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
+}
+
+.moo-bundle__preset:hover,
+.moo-bundle__preset.is-active {
+  border-color: rgba(248, 217, 125, 0.7);
+  color: #e8d5a3;
+  transform: translateY(-1px);
+}
+
 .moo-bundle__items {
   display: grid;
   gap: 1.8rem;
@@ -64,59 +96,10 @@
 
 .moo-bundle-card {
   padding: 2.2rem;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 1.8rem;
 }
 
 .moo-bundle-card.is-disabled {
   opacity: 0.68;
-}
-
-.moo-bundle-card__select {
-  padding-top: 0.4rem;
-}
-
-.moo-bundle-card__checkbox-label {
-  display: inline-flex;
-  cursor: pointer;
-}
-
-.moo-bundle-card__checkbox {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.moo-bundle-card__checkbox-ui {
-  width: 2.4rem;
-  height: 2.4rem;
-  border-radius: 999px;
-  border: 1px solid rgba(212, 174, 92, 0.5);
-  background: rgba(255, 255, 255, 0.03);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: 0.25s ease;
-}
-
-.moo-bundle-card__checkbox-ui::after {
-  content: "";
-  width: 1rem;
-  height: 1rem;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #f8d97d, #c58418);
-  transform: scale(0);
-  transition: transform 0.2s ease;
-}
-
-.moo-bundle-card__checkbox:checked + .moo-bundle-card__checkbox-ui {
-  border-color: rgba(248, 217, 125, 0.92);
-  box-shadow: 0 0 0 0.5rem rgba(196, 132, 24, 0.14);
-}
-
-.moo-bundle-card__checkbox:checked + .moo-bundle-card__checkbox-ui::after {
-  transform: scale(1);
 }
 
 .moo-bundle-card__content {
@@ -166,7 +149,7 @@
   border: 1px solid rgba(212, 174, 92, 0.22);
   color: #d0ac52;
   font-size: 1rem;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
@@ -188,6 +171,14 @@
   color: rgba(244, 237, 227, 0.74);
   font-size: 1.55rem;
   line-height: 1.75;
+}
+
+.moo-bundle-card__availability {
+  margin: 1.2rem 0 0;
+  color: #ffbf9d;
+  font-size: 1.2rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .moo-bundle-card__footer {
@@ -248,6 +239,12 @@
   cursor: pointer;
 }
 
+.moo-bundle-qty__button[disabled],
+.moo-bundle-qty__input[disabled] {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
 .moo-bundle-qty__input {
   width: 100%;
   padding: 0 0.8rem;
@@ -268,14 +265,9 @@
   text-decoration: none;
 }
 
-.moo-bundle-card__link.is-disabled {
-  opacity: 0.5;
-  pointer-events: none;
-}
-
 .moo-bundle-summary {
   position: sticky;
-  top: 3rem;
+  top: 11rem;
 }
 
 .moo-bundle-summary__card {
@@ -327,13 +319,24 @@
   font-size: 1.8rem;
 }
 
+.moo-bundle-summary__row--savings strong {
+  color: #d8c270;
+}
+
 .moo-bundle-summary__row--total strong {
   color: #f8d97d;
   font-size: 2.8rem;
 }
 
+.moo-bundle-summary__unlock {
+  margin: 2rem 0 0;
+  color: #fff0da;
+  font-size: 1.35rem;
+  line-height: 1.6;
+}
+
 .moo-bundle-summary__selected {
-  margin-top: 2rem;
+  margin-top: 1.4rem;
   display: grid;
   gap: 1rem;
 }
@@ -420,9 +423,13 @@
     font-size: 1.5rem;
   }
 
+  .moo-bundle__presets {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
   .moo-bundle-card {
     padding: 1.6rem;
-    grid-template-columns: 1fr;
   }
 
   .moo-bundle-card__content {
@@ -439,7 +446,8 @@
 
   .moo-bundle-card__description,
   .moo-bundle-summary__note,
-  .moo-bundle-summary__row {
+  .moo-bundle-summary__row,
+  .moo-bundle-summary__unlock {
     font-size: 1.35rem;
   }
 

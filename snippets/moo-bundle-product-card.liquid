@@ -1,0 +1,132 @@
+{% liquid
+  assign bundle_product = product
+  assign current_variant = bundle_product.selected_or_first_available_variant
+  assign product_handle = bundle_product.handle | default: ''
+  assign display_title = bundle_product.title
+
+  if product_handle == 'moo-steak-chips-holy-heat'
+    assign display_title = 'Holy Heat'
+  elsif product_handle == 'moo-steak-chips-honey-blaze'
+    assign display_title = 'Honey Blaze'
+  endif
+
+  assign bundle_badge = badge
+  if bundle_badge == blank
+    if product_handle == 'moo-steak-chips-holy-heat'
+      assign bundle_badge = 'Bold pepper expression'
+    elsif product_handle == 'moo-steak-chips-honey-blaze'
+      assign bundle_badge = 'Warm amber finish'
+    endif
+  endif
+
+  assign bundle_description = description
+  if bundle_description == blank
+    if product_handle == 'moo-steak-chips-holy-heat'
+      assign bundle_description = 'Brighter chili strike, louder crunch, and a fast savory finish.'
+    elsif product_handle == 'moo-steak-chips-honey-blaze'
+      assign bundle_description = 'Warmer chili glow, smoother heat, and a sweeter everyday finish.'
+    else
+      assign bundle_description = bundle_product.description | strip_html | truncatewords: 22
+    endif
+  endif
+
+  assign pack_copy = '4 OZ / 100G BAG'
+  if bundle_product.metafields.custom.pack_size.value != blank
+    assign pack_copy = bundle_product.metafields.custom.pack_size.value
+  endif
+
+  assign starting_quantity = default_quantity | default: 0
+  if starting_quantity < 0
+    assign starting_quantity = 0
+  endif
+
+  assign bundle_available = false
+  if current_variant != blank and current_variant.available
+    assign bundle_available = true
+  endif
+
+  assign media = bundle_product.featured_media | default: bundle_product.featured_image
+-%}
+<article
+  class="moo-bundle-card{% unless bundle_available %} is-disabled{% endunless %}"
+  {% if block_attributes != blank %}
+    {{ block_attributes }}
+  {% endif %}
+  data-bundle-item
+  data-product-handle="{{ product_handle }}"
+  data-product-title="{{ display_title | escape }}"
+  data-product-url="{{ bundle_product.url }}"
+  data-available="{% if bundle_available %}true{% else %}false{% endif %}"
+  {% if current_variant != blank %}
+    data-variant-id="{{ current_variant.id }}"
+    data-price="{{ current_variant.price }}"
+  {% endif %}
+>
+  <div class="moo-bundle-card__content">
+    <div class="moo-bundle-card__media">
+      {% if media != blank %}
+        <img
+          src="{{ media.preview_image | image_url: width: 1200 }}"
+          alt="{{ media.alt | default: display_title | escape }}"
+          class="moo-bundle-card__image"
+          loading="lazy"
+        >
+      {% else %}
+        <div class="moo-bundle-card__placeholder">
+          {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="moo-bundle-card__body">
+      <div class="moo-bundle-card__meta">
+        {% if bundle_badge != blank %}
+          <span class="moo-bundle-card__badge">{{ bundle_badge }}</span>
+        {% endif %}
+
+        <a href="{{ bundle_product.url }}" class="moo-bundle-card__title-link">
+          <h2 class="moo-bundle-card__title">{{ display_title }}</h2>
+        </a>
+
+        {% if bundle_description != blank %}
+          <p class="moo-bundle-card__description">{{ bundle_description }}</p>
+        {% endif %}
+
+        {% unless bundle_available %}
+          <p class="moo-bundle-card__availability">Sold out right now</p>
+        {% endunless %}
+      </div>
+
+      <div class="moo-bundle-card__footer">
+        <div class="moo-bundle-card__price-group">
+          <span class="moo-bundle-card__price">
+            {% if current_variant != blank %}
+              {{ current_variant.price | money }}
+            {% else %}
+              Unavailable
+            {% endif %}
+          </span>
+          <span class="moo-bundle-card__pack">{{ pack_copy | upcase }}</span>
+        </div>
+
+        <div class="moo-bundle-card__actions">
+          <div class="moo-bundle-qty" data-bundle-qty>
+            <button type="button" class="moo-bundle-qty__button" data-bundle-decrease aria-label="Decrease quantity" {% unless bundle_available %}disabled{% endunless %}>-</button>
+            <input
+              type="number"
+              min="0"
+              step="1"
+              value="{{ starting_quantity }}"
+              class="moo-bundle-qty__input"
+              data-bundle-quantity
+              {% unless bundle_available %}disabled{% endunless %}
+            >
+            <button type="button" class="moo-bundle-qty__button" data-bundle-increase aria-label="Increase quantity" {% unless bundle_available %}disabled{% endunless %}>+</button>
+          </div>
+
+          <a href="{{ bundle_product.url }}" class="moo-bundle-card__link">View details</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>

@@ -6,6 +6,11 @@
   assign builder_intro = section.settings.intro
   assign bundle_cta = section.settings.button_label | default: 'Add selected to cart'
   assign builder_note = section.settings.note
+  assign fallback_holy = all_products['moo-steak-chips-holy-heat']
+  assign fallback_honey = all_products['moo-steak-chips-honey-blaze']
+  assign rendered_count = 0
+  assign holy_rendered = false
+  assign honey_rendered = false
 -%}
 
 {%- style -%}
@@ -22,7 +27,12 @@
   }
 {%- endstyle -%}
 
-<section class="moo-bundle section-{{ section.id }}-padding" data-moo-bundle-builder>
+<section
+  class="moo-bundle section-{{ section.id }}-padding"
+  data-moo-bundle-builder
+  data-bundle-min="2"
+  data-bundle-discount-rate="0.10"
+>
   <div class="page-width moo-bundle__page">
     <div class="moo-bundle__hero">
       {% if section.settings.eyebrow != blank %}
@@ -35,128 +45,86 @@
     </div>
 
     <div class="moo-bundle__layout">
-      <div class="moo-bundle__items">
-        {% if section.blocks.size > 0 %}
-          {% for block in section.blocks %}
-            {% liquid
-              assign bundle_product = block.settings.product
-              assign current_variant = bundle_product.selected_or_first_available_variant
-              assign bundle_title = block.settings.title_override | default: bundle_product.title | default: 'Select a product'
-              assign bundle_description = block.settings.description | default: bundle_product.description | strip_html | truncatewords: 22
-              assign bundle_badge = block.settings.badge
-              assign pack_copy = '4 OZ / 100G BAG'
-              if bundle_product != blank and bundle_product.metafields.custom.pack_size.value != blank
-                assign pack_copy = bundle_product.metafields.custom.pack_size.value
-              endif
-              assign default_qty = block.settings.default_quantity | default: 1
-              if default_qty < 1
-                assign default_qty = 1
-              endif
-              assign is_checked = block.settings.default_checked
-              assign media = bundle_product.featured_media
-            %}
-            <article
-              class="moo-bundle-card{% if bundle_product == blank %} is-disabled{% endif %}"
-              {{ block.shopify_attributes }}
-              data-bundle-item
-              {% if current_variant != blank %}
-                data-variant-id="{{ current_variant.id }}"
-                data-price="{{ current_variant.price }}"
-                data-product-title="{{ bundle_title | escape }}"
-                data-product-url="{{ bundle_product.url }}"
-                data-available="{% if current_variant.available %}true{% else %}false{% endif %}"
+      <div class="moo-bundle__items-column">
+        <div class="moo-bundle__presets" aria-label="Bundle presets">
+          <button type="button" class="moo-bundle__preset" data-bundle-preset data-holy-qty="1" data-honey-qty="1">Variety 2-Pack</button>
+          <button type="button" class="moo-bundle__preset" data-bundle-preset data-holy-qty="2" data-honey-qty="0">Holy Heat 2-Pack</button>
+          <button type="button" class="moo-bundle__preset" data-bundle-preset data-holy-qty="0" data-honey-qty="2">Honey Blaze 2-Pack</button>
+          <button type="button" class="moo-bundle__preset" data-bundle-preset data-holy-qty="2" data-honey-qty="2">Stock Up 4-Pack</button>
+        </div>
+
+        <div class="moo-bundle__items">
+          {% if section.blocks.size > 0 %}
+            {% for block in section.blocks %}
+              {% if block.settings.product != blank %}
+                {% render 'moo-bundle-product-card',
+                  product: block.settings.product,
+                  badge: block.settings.badge,
+                  description: block.settings.description,
+                  default_quantity: block.settings.default_quantity,
+                  block_attributes: block.shopify_attributes
+                %}
+                {% assign rendered_count = rendered_count | plus: 1 %}
+                {% if block.settings.product.handle == 'moo-steak-chips-holy-heat' %}
+                  {% assign holy_rendered = true %}
+                {% elsif block.settings.product.handle == 'moo-steak-chips-honey-blaze' %}
+                  {% assign honey_rendered = true %}
+                {% endif %}
               {% endif %}
-            >
-              <div class="moo-bundle-card__select">
-                <label class="moo-bundle-card__checkbox-label">
-                  <input
-                    type="checkbox"
-                    class="moo-bundle-card__checkbox"
-                    data-bundle-toggle
-                    {% if is_checked %}checked{% endif %}
-                    {% if bundle_product == blank or current_variant == blank or current_variant.available == false %}disabled{% endif %}
-                  >
-                  <span class="moo-bundle-card__checkbox-ui"></span>
-                </label>
-              </div>
+            {% endfor %}
+          {% endif %}
 
-              <div class="moo-bundle-card__content">
-                <div class="moo-bundle-card__media">
-                  {% if media != blank %}
-                    <img
-                      src="{{ media.preview_image | image_url: width: 900 }}"
-                      alt="{{ media.alt | default: bundle_title | escape }}"
-                      class="moo-bundle-card__image"
-                      loading="lazy"
-                    >
-                  {% else %}
-                    <div class="moo-bundle-card__placeholder">
-                      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
-                    </div>
-                  {% endif %}
-                </div>
+          {% if holy_rendered == false and section.settings.holy_heat_product != blank %}
+            {% render 'moo-bundle-product-card',
+              product: section.settings.holy_heat_product,
+              badge: 'Bold pepper expression',
+              description: 'Brighter chili strike, louder crunch, and a fast savory finish.',
+              default_quantity: 0
+            %}
+            {% assign rendered_count = rendered_count | plus: 1 %}
+            {% assign holy_rendered = true %}
+          {% endif %}
 
-                <div class="moo-bundle-card__body">
-                  <div class="moo-bundle-card__meta">
-                    {% if bundle_badge != blank %}
-                      <span class="moo-bundle-card__badge">{{ bundle_badge }}</span>
-                    {% endif %}
-                    {% if bundle_product != blank %}
-                      <a href="{{ bundle_product.url }}" class="moo-bundle-card__title-link">
-                        <h2 class="moo-bundle-card__title">{{ bundle_title }}</h2>
-                      </a>
-                    {% else %}
-                      <h2 class="moo-bundle-card__title">{{ bundle_title }}</h2>
-                    {% endif %}
-                    {% if bundle_description != blank %}
-                      <p class="moo-bundle-card__description">{{ bundle_description }}</p>
-                    {% endif %}
-                  </div>
+          {% if honey_rendered == false and section.settings.honey_blaze_product != blank %}
+            {% render 'moo-bundle-product-card',
+              product: section.settings.honey_blaze_product,
+              badge: 'Warm amber finish',
+              description: 'Warmer chili glow, smoother heat, and a sweeter everyday finish.',
+              default_quantity: 0
+            %}
+            {% assign rendered_count = rendered_count | plus: 1 %}
+            {% assign honey_rendered = true %}
+          {% endif %}
 
-                  <div class="moo-bundle-card__footer">
-                    <div class="moo-bundle-card__price-group">
-                      <span class="moo-bundle-card__price">
-                        {% if current_variant != blank %}
-                          {{ current_variant.price | money }}
-                        {% else %}
-                          Select product
-                        {% endif %}
-                      </span>
-                      <span class="moo-bundle-card__pack">{{ pack_copy | upcase }}</span>
-                    </div>
+          {% if holy_rendered == false and fallback_holy != blank %}
+            {% render 'moo-bundle-product-card',
+              product: fallback_holy,
+              badge: 'Bold pepper expression',
+              description: 'Brighter chili strike, louder crunch, and a fast savory finish.',
+              default_quantity: 0
+            %}
+            {% assign rendered_count = rendered_count | plus: 1 %}
+            {% assign holy_rendered = true %}
+          {% endif %}
 
-                    <div class="moo-bundle-card__actions">
-                      <div class="moo-bundle-qty" data-bundle-qty>
-                        <button type="button" class="moo-bundle-qty__button" data-bundle-decrease aria-label="Decrease quantity" {% if bundle_product == blank or current_variant == blank or current_variant.available == false %}disabled{% endif %}>-</button>
-                        <input
-                          type="number"
-                          min="1"
-                          step="1"
-                          value="{{ default_qty }}"
-                          class="moo-bundle-qty__input"
-                          data-bundle-quantity
-                          {% if bundle_product == blank or current_variant == blank or current_variant.available == false %}disabled{% endif %}
-                        >
-                        <button type="button" class="moo-bundle-qty__button" data-bundle-increase aria-label="Increase quantity" {% if bundle_product == blank or current_variant == blank or current_variant.available == false %}disabled{% endif %}>+</button>
-                      </div>
+          {% if honey_rendered == false and fallback_honey != blank %}
+            {% render 'moo-bundle-product-card',
+              product: fallback_honey,
+              badge: 'Warm amber finish',
+              description: 'Warmer chili glow, smoother heat, and a sweeter everyday finish.',
+              default_quantity: 0
+            %}
+            {% assign rendered_count = rendered_count | plus: 1 %}
+            {% assign honey_rendered = true %}
+          {% endif %}
 
-                      {% if bundle_product != blank %}
-                        <a href="{{ bundle_product.url }}" class="moo-bundle-card__link">View product</a>
-                      {% else %}
-                        <span class="moo-bundle-card__link is-disabled">Choose product in editor</span>
-                      {% endif %}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </article>
-          {% endfor %}
-        {% else %}
-          <div class="moo-bundle__empty">
-            <h2>Add bundle products in the theme editor</h2>
-            <p>Use section blocks to connect the products you want available on the bundle page.</p>
-          </div>
-        {% endif %}
+          {% if rendered_count == 0 %}
+            <div class="moo-bundle__empty">
+              <h2>Bundle products are unavailable right now.</h2>
+              <p>Reconnect Holy Heat and Honey Blaze in the theme editor if the products are not yet published.</p>
+            </div>
+          {% endif %}
+        </div>
       </div>
 
       <aside class="moo-bundle-summary" data-bundle-summary>
@@ -172,17 +140,29 @@
               <span>Selected items</span>
               <strong data-bundle-count>0</strong>
             </div>
+            <div class="moo-bundle-summary__row">
+              <span>Subtotal</span>
+              <strong data-bundle-subtotal>{{ 0 | money }}</strong>
+            </div>
+            <div class="moo-bundle-summary__row moo-bundle-summary__row--savings">
+              <span>Estimated 10% savings</span>
+              <strong data-bundle-savings>{{ 0 | money }}</strong>
+            </div>
             <div class="moo-bundle-summary__row moo-bundle-summary__row--total">
               <span>Estimated total</span>
               <strong data-bundle-total>{{ 0 | money }}</strong>
             </div>
           </div>
 
+          <p class="moo-bundle-summary__unlock" data-bundle-unlock>
+            Select products to build your bundle.
+          </p>
+
           <div class="moo-bundle-summary__selected" data-bundle-selected-list>
             <p class="moo-bundle-summary__selected-empty">Select products to build your bundle.</p>
           </div>
 
-          <button type="button" class="button button--primary moo-bundle-summary__button" data-bundle-submit {% if section.blocks.size == 0 %}disabled{% endif %}>
+          <button type="button" class="button button--primary moo-bundle-summary__button" data-bundle-submit {% if rendered_count == 0 %}disabled{% endif %}>
             <span data-bundle-submit-label>{{ bundle_cta }}</span>
           </button>
 
@@ -213,7 +193,17 @@
       "type": "richtext",
       "id": "intro",
       "label": "Intro",
-      "default": "<p>Mix Holy Heat and Honey Blaze into one cart-ready bundle. Select the bags you want, set your quantities, and add them together in one click.</p>"
+      "default": "<p>Mix Holy Heat and Honey Blaze into one cart-ready bundle. Select at least two bags, fine-tune each quantity, and add everything together in one click.</p>"
+    },
+    {
+      "type": "product",
+      "id": "holy_heat_product",
+      "label": "Holy Heat product"
+    },
+    {
+      "type": "product",
+      "id": "honey_blaze_product",
+      "label": "Honey Blaze product"
     },
     {
       "type": "text",
@@ -225,7 +215,7 @@
       "type": "text",
       "id": "note",
       "label": "Summary note",
-      "default": "Bundle totals update live as you select products. Use the quantity controls to fine-tune your order before adding everything to cart."
+      "default": "Bundle totals update live as you select products. The 10% savings shown here is an estimate - your automatic Shopify discount will apply in cart or checkout once it is configured."
     },
     {
       "type": "text",
@@ -271,29 +261,18 @@
           "default": "Signature pick"
         },
         {
-          "type": "text",
-          "id": "title_override",
-          "label": "Title override"
-        },
-        {
           "type": "textarea",
           "id": "description",
           "label": "Short description"
         },
         {
-          "type": "checkbox",
-          "id": "default_checked",
-          "label": "Selected by default",
-          "default": true
-        },
-        {
           "type": "range",
           "id": "default_quantity",
-          "min": 1,
+          "min": 0,
           "max": 12,
           "step": 1,
           "label": "Default quantity",
-          "default": 1
+          "default": 0
         }
       ]
     }
@@ -301,15 +280,7 @@
   "max_blocks": 8,
   "presets": [
     {
-      "name": "MOO Bundle Builder",
-      "blocks": [
-        {
-          "type": "product"
-        },
-        {
-          "type": "product"
-        }
-      ]
+      "name": "MOO Bundle Builder"
     }
   ]
 }
