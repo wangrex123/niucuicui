@@ -227,6 +227,22 @@
     function playVideo() { document.getElementById('videoPoster').classList.add('hidden'); const video = document.getElementById('mainVideo'); video.play().catch(() => {}); }
 
 (function () {
+  function clearHomepageCartState() {
+    document.body.classList.remove('overflow-hidden');
+    document.documentElement.classList.remove('overflow-hidden');
+
+    const cartDrawer = document.querySelector('cart-drawer');
+    const overlay = document.getElementById('CartDrawer-Overlay');
+
+    if (cartDrawer && !cartDrawer.classList.contains('active')) {
+      cartDrawer.classList.remove('animate');
+    }
+
+    if (overlay && cartDrawer && !cartDrawer.classList.contains('active')) {
+      overlay.blur?.();
+    }
+  }
+
   async function handleHomepageAddToCart(form) {
     const submitButton = form.querySelector('[data-add-to-cart]');
     const submitLabel = submitButton?.querySelector('.moo-submit-label');
@@ -285,23 +301,24 @@
 
           window.setTimeout(() => {
             if (!cartDrawer.classList.contains('active')) {
-              document.body.classList.remove('overflow-hidden');
+              clearHomepageCartState();
               window.location.href = cartUrl;
             }
           }, 700);
         } catch (drawerError) {
           console.error('[MOO] Cart drawer render failed, redirecting to cart.', drawerError);
-          document.body.classList.remove('overflow-hidden');
+          clearHomepageCartState();
           window.location.href = cartUrl;
           return;
         }
       } else {
+        clearHomepageCartState();
         window.location.href = cartUrl;
         return;
       }
     } catch (error) {
       console.error('[MOO] Homepage add to cart failed.', error);
-      document.body.classList.remove('overflow-hidden');
+      clearHomepageCartState();
 
       if (errorWrapper && errorMessage) {
         errorWrapper.hidden = false;
