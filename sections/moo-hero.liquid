@@ -1,5 +1,10 @@
 {% liquid
   assign cart_count = cart.item_count
+  if section.settings.hero_duo_image != blank
+    assign hero_duo_image_url = section.settings.hero_duo_image | image_url: width: 2400
+  else
+    assign hero_duo_image_url = 'moo-hero-duo-products.png' | asset_url
+  endif
 %}
 <div id="loader" class="loader">
   <div class="loader-counter" id="loaderCounter">00</div>
@@ -37,6 +42,7 @@
 </div>
 
 <section class="hero-section" id="hero">
+  <div class="hero-background" style="background-image: url('{{ hero_duo_image_url }}');" aria-hidden="true"></div>
   <div class="hero-atmosphere" aria-hidden="true">
     <div class="hero-texture"></div>
     <div class="hero-heat-haze"></div>
@@ -76,20 +82,7 @@
         </div>
       </div>
 
-      <div class="hero-product hero-product-duo" id="heroProduct">
-        <div class="hero-product-shadow"></div>
-        <div class="hero-product-stage">
-          <div class="hero-product-depth"></div>
-          <div class="hero-product-inner">
-            {% if section.settings.hero_duo_image != blank %}
-              <img src="{{ section.settings.hero_duo_image | image_url: width: 2200 }}" alt="M&#332;&#332; Steak Chips Holy Heat and Honey Blaze hero image" class="hero-pack-image">
-            {% else %}
-              <img src="{{ 'moo-hero-duo-products.png' | asset_url }}" alt="M&#332;&#332; Steak Chips Holy Heat and Honey Blaze hero image" class="hero-pack-image">
-            {% endif %}
-          </div>
-        </div>
-        <div class="hero-caption">holy heat - honey blaze - real steak - ultra-crispy</div>
-      </div>
+      <div class="hero-product hero-visual-spacer" id="heroProduct" aria-hidden="true"></div>
     </div>
   </div>
   <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-10">
