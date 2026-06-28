@@ -1,5 +1,5 @@
 {% liquid
-  assign cart_count = cart.item_count
+  assign hero_menu = section.settings.menu
   if section.settings.hero_image != blank
     assign hero_duo_image_url = section.settings.hero_image | image_url: width: 3200
     assign hero_duo_image_url_2x = section.settings.hero_image | image_url: width: 4200
@@ -14,34 +14,7 @@
   <div class="loader-bar-track"><div class="loader-bar-fill" id="loaderBar"></div></div>
 </div>
 
-<nav class="main-nav" id="mainNav">
-  <a href="{{ routes.root_url }}" class="font-serif text-lg md:text-xl lg:text-2xl leading-none text-moo-goldLight max-w-[11rem] md:max-w-none">M&#332;&#332; Steak Chips</a>
-  <div class="hidden md:flex items-center gap-10">
-    <a href="#flavors" class="nav-link">Flavors</a>
-    <a href="#process" class="nav-link">Process</a>
-    <a href="#video" class="nav-link">Video</a>
-    <a href="#testimonials" class="nav-link">Reviews</a>
-    <a href="{{ routes.cart_url }}" class="nav-link flex items-center gap-2 moo-cart-link">Cart{% if cart_count > 0 %}<span id="navCartCount" class="text-[10px] bg-moo-gold text-moo-void px-1.5 py-0.5 rounded-full">{{ cart_count }}</span>{% endif %}</a>
-  </div>
-  <div class="flex items-center gap-4 md:hidden">
-    <a href="{{ routes.cart_url }}" class="text-moo-goldLight moo-cart-link" aria-label="Open cart">
-      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/></svg>
-    </a>
-    <button type="button" data-moo-menu-toggle class="text-moo-cream moo-menu-toggle" aria-label="Open menu">
-      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5"/></svg>
-    </button>
-  </div>
-</nav>
-
-<div id="mobileMenu" class="hidden fixed inset-0 bg-moo-void/95 backdrop-blur-xl z-50 flex flex-col items-center justify-center gap-8">
-  <button type="button" data-moo-menu-close class="absolute top-6 right-6 text-moo-cream moo-menu-close" aria-label="Close menu">
-    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-  </button>
-  <a href="#flavors" data-moo-menu-close class="font-serif text-3xl text-moo-cream hover:text-moo-gold transition-colors">Flavors</a>
-  <a href="#process" data-moo-menu-close class="font-serif text-3xl text-moo-cream hover:text-moo-gold transition-colors">Process</a>
-  <a href="#video" data-moo-menu-close class="font-serif text-3xl text-moo-cream hover:text-moo-gold transition-colors">Video</a>
-  <a href="#testimonials" data-moo-menu-close class="font-serif text-3xl text-moo-cream hover:text-moo-gold transition-colors">Reviews</a>
-</div>
+{% render 'moo-site-header', menu: hero_menu, overlay: true %}
 
 <section class="hero-section moo-hero" id="hero" style="--moo-hero-image: url('{{ hero_duo_image_url }}'); --moo-hero-image-2x: url('{{ hero_duo_image_url_2x }}');">
   <div class="hero-atmosphere" aria-hidden="true">
@@ -100,6 +73,12 @@
 {
   "name": "MOO Hero",
   "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Navigation menu",
+      "default": "main-menu"
+    },
     {
       "type": "image_picker",
       "id": "hero_image",

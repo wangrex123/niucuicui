@@ -201,7 +201,19 @@
       document.querySelectorAll('.reveal-text').forEach((el, i) => { setTimeout(() => el.classList.add('active'), 200 + i * 150); });
       initHeroFall();
       gsap.from('.hero-product', { opacity: 0, x: 80, duration: 1.5, delay: 0.3, ease: 'power3.out' });
-      ScrollTrigger.create({ start: 'top -80', onUpdate: (self) => { if (self.scroll() > 80) { document.getElementById('mainNav').classList.add('scrolled'); } else { document.getElementById('mainNav').classList.remove('scrolled'); } } });
+      const legacyMainNav = document.getElementById('mainNav');
+      if (legacyMainNav) {
+        ScrollTrigger.create({
+          start: 'top -80',
+          onUpdate: (self) => {
+            if (self.scroll() > 80) {
+              legacyMainNav.classList.add('scrolled');
+            } else {
+              legacyMainNav.classList.remove('scrolled');
+            }
+          }
+        });
+      }
 
       // Horizontal scroll flavors only when a section explicitly opts into that behavior.
       const hContainer = document.getElementById('horizontalContainer');

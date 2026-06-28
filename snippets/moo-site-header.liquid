@@ -1,0 +1,113 @@
+{% liquid
+  assign nav_menu = menu
+  if nav_menu == blank
+    assign nav_menu = linklists['main-menu']
+  endif
+
+  assign cart_count = cart.item_count
+  assign has_cart_link = false
+
+  if nav_menu != blank
+    for link in nav_menu.links
+      if link.url == routes.cart_url
+        assign has_cart_link = true
+      endif
+    endfor
+  endif
+
+  assign overlay_mode = false
+  if overlay == true
+    assign overlay_mode = true
+  endif
+%}
+
+<header
+  class="moo-site-header{% if overlay_mode %} moo-site-header--overlay{% else %} moo-site-header--solid{% endif %}"
+  data-moo-site-header
+  {% if overlay_mode %}
+    data-overlay="true"
+  {% endif %}
+>
+  <div class="moo-site-header__inner page-width">
+    <a href="{{ routes.root_url }}" class="moo-site-header__brand" aria-label="MOO Steak Chips home">
+      M&#332;&#332; Steak Chips
+    </a>
+
+    <nav class="moo-site-header__nav" aria-label="Primary">
+      {% if nav_menu != blank %}
+        {% for link in nav_menu.links %}
+          <a
+            href="{{ link.url }}"
+            class="moo-site-header__link{% if link.current or link.active or link.child_active %} is-active{% endif %}"
+          >
+            {{ link.title }}
+          </a>
+        {% endfor %}
+      {% else %}
+        <a href="{{ routes.root_url }}" class="moo-site-header__link{% if request.page_type == 'index' %} is-active{% endif %}">Home</a>
+        <a href="/collections/all" class="moo-site-header__link{% if request.page_type == 'collection' %} is-active{% endif %}">Catalog</a>
+        <a href="/pages/bundle" class="moo-site-header__link{% if request.path contains '/pages/bundle' %} is-active{% endif %}">Bundle</a>
+        <a href="/pages/contact" class="moo-site-header__link{% if request.path contains '/pages/contact' %} is-active{% endif %}">Contact</a>
+      {% endif %}
+
+      {% unless has_cart_link %}
+        <a href="{{ routes.cart_url }}" class="moo-site-header__link moo-site-header__cart-link{% if request.path == routes.cart_url %} is-active{% endif %}">
+          <span>Cart</span>
+          {% if cart_count > 0 %}
+            <span class="moo-site-header__count">{{ cart_count }}</span>
+          {% endif %}
+        </a>
+      {% endunless %}
+    </nav>
+
+    <div class="moo-site-header__actions">
+      <a href="{{ routes.cart_url }}" class="moo-site-header__cart-link moo-site-header__cart-link--compact{% if request.path == routes.cart_url %} is-active{% endif %}" aria-label="View cart">
+        <span>Cart</span>
+        {% if cart_count > 0 %}
+          <span class="moo-site-header__count">{{ cart_count }}</span>
+        {% endif %}
+      </a>
+      <button type="button" class="moo-site-header__toggle" data-moo-site-menu-toggle aria-label="Open navigation">
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="moo-site-header__mobile-panel" data-moo-site-menu hidden>
+    <div class="moo-site-header__mobile-shell">
+      <div class="moo-site-header__mobile-head">
+        <span class="moo-site-header__mobile-brand">M&#332;&#332; Steak Chips</span>
+        <button type="button" class="moo-site-header__close" data-moo-site-menu-close aria-label="Close navigation">
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+      <nav class="moo-site-header__mobile-nav" aria-label="Mobile primary">
+        {% if nav_menu != blank %}
+          {% for link in nav_menu.links %}
+            <a
+              href="{{ link.url }}"
+              class="moo-site-header__mobile-link{% if link.current or link.active or link.child_active %} is-active{% endif %}"
+              data-moo-site-menu-close
+            >
+              {{ link.title }}
+            </a>
+          {% endfor %}
+        {% else %}
+          <a href="{{ routes.root_url }}" class="moo-site-header__mobile-link{% if request.page_type == 'index' %} is-active{% endif %}" data-moo-site-menu-close>Home</a>
+          <a href="/collections/all" class="moo-site-header__mobile-link{% if request.page_type == 'collection' %} is-active{% endif %}" data-moo-site-menu-close>Catalog</a>
+          <a href="/pages/bundle" class="moo-site-header__mobile-link{% if request.path contains '/pages/bundle' %} is-active{% endif %}" data-moo-site-menu-close>Bundle</a>
+          <a href="/pages/contact" class="moo-site-header__mobile-link{% if request.path contains '/pages/contact' %} is-active{% endif %}" data-moo-site-menu-close>Contact</a>
+        {% endif %}
+
+        {% unless has_cart_link %}
+          <a href="{{ routes.cart_url }}" class="moo-site-header__mobile-link{% if request.path == routes.cart_url %} is-active{% endif %}" data-moo-site-menu-close>
+            Cart{% if cart_count > 0 %} ({{ cart_count }}){% endif %}
+          </a>
+        {% endunless %}
+      </nav>
+    </div>
+  </div>
+</header>
