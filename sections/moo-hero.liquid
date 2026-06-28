@@ -1,6 +1,12 @@
 {% liquid
   assign cart_count = cart.item_count
-  assign hero_duo_image_url = 'moo-hero-background-20260628.png' | asset_url
+  if section.settings.hero_image != blank
+    assign hero_duo_image_url = section.settings.hero_image | image_url: width: 3200
+    assign hero_duo_image_url_2x = section.settings.hero_image | image_url: width: 4200
+  else
+    assign hero_duo_image_url = 'moo-hero-background-20260628-v2.png' | asset_url
+    assign hero_duo_image_url_2x = 'moo-hero-background-20260628-v2.png' | asset_url
+  endif
 %}
 <div id="loader" class="loader">
   <div class="loader-counter" id="loaderCounter">00</div>
@@ -37,7 +43,7 @@
   <a href="#testimonials" data-moo-menu-close class="font-serif text-3xl text-moo-cream hover:text-moo-gold transition-colors">Reviews</a>
 </div>
 
-<section class="hero-section" id="hero">
+<section class="hero-section moo-hero" id="hero" style="--moo-hero-image: url('{{ hero_duo_image_url }}'); --moo-hero-image-2x: url('{{ hero_duo_image_url_2x }}');">
   <div class="hero-atmosphere" aria-hidden="true">
     <div class="hero-texture"></div>
     <div class="hero-heat-haze"></div>
@@ -52,15 +58,12 @@
     data-chip-b="{{ 'hero-fall-chip-b-v2.png' | asset_url }}"
     data-chip-c="{{ 'hero-fall-chip-c-v2.png' | asset_url }}"
   ></div>
-  <div class="hero-background" aria-hidden="true">
-    <img src="{{ hero_duo_image_url }}" alt="M&#332;&#332; Steak Chips hero background scene" class="hero-background-media">
-  </div>
-  <div class="hero-overlay" aria-hidden="true"></div>
+  <div class="hero-overlay moo-hero__overlay" aria-hidden="true"></div>
   <div class="container mx-auto px-6 relative z-10">
-    <div class="hero-grid">
-      <div class="hero-copy">
+    <div class="hero-grid moo-hero__layout">
+      <div class="hero-copy moo-hero__content">
         <div class="hero-eyebrow reveal-text" id="heroSubtitle"><span class="reveal-text-inner">M&#332;&#332; Steak Chips - Ultra-crispy real steak snack</span></div>
-        <h1 class="hero-title mt-5 reveal-text" id="heroTitle"><span class="reveal-text-inner">STEAK CHIPS</span></h1>
+        <h1 class="hero-title moo-hero__heading mt-5 reveal-text" id="heroTitle"><span class="reveal-text-inner">STEAK CHIPS</span></h1>
         <p class="hero-desc reveal-text" id="heroDesc"><span class="reveal-text-inner">Real steak, crisped into a light high-protein snack with bold flavor and an addictive crunch.</span></p>
         <div class="hero-sensory-strip reveal-text" style="transition-delay: 0.24s"><span class="reveal-text-inner">Real Steak</span><span class="reveal-text-inner">Ultra-crispy</span><span class="reveal-text-inner">Handcrafted in Virginia</span></div>
         <div class="hero-proof">
@@ -91,7 +94,13 @@
 {% schema %}
 {
   "name": "MOO Hero",
-  "settings": [],
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero image"
+    }
+  ],
   "presets": [
     {
       "name": "MOO Hero"
