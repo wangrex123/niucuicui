@@ -152,3 +152,467 @@ body.moo-product-page {
     font-size: clamp(2.4rem, 10vw, 4rem);
   }
 }
+
+.moo-product-page .moo-pdp {
+  position: relative;
+}
+
+.moo-product-page .moo-pdp-shell {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 36px;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0) 18%),
+    radial-gradient(circle at 80% 14%, rgba(201, 162, 39, 0.14), transparent 22%),
+    radial-gradient(circle at 18% 26%, rgba(142, 18, 20, 0.2), transparent 28%),
+    linear-gradient(160deg, rgba(25, 10, 10, 0.96) 0%, rgba(9, 8, 8, 0.98) 52%, rgba(6, 5, 5, 1) 100%);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.34);
+}
+
+.moo-product-page .moo-pdp-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+  gap: clamp(2rem, 4vw, 4rem);
+  padding: clamp(1.5rem, 3vw, 3rem);
+}
+
+.moo-product-page .moo-pdp-media-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.moo-product-page .moo-pdp-gallery-card,
+.moo-product-page .moo-pdp-highlight-card,
+.moo-product-page .moo-pdp-flavor-panel,
+.moo-product-page .moo-pdp-pair-card {
+  border: 1px solid rgba(255,255,255,0.08);
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
+  border-radius: 28px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+}
+
+.moo-product-page .moo-pdp-gallery-card {
+  padding: 1.25rem;
+}
+
+.moo-product-page .moo-pdp-gallery-stage {
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  min-height: clamp(26rem, 48vw, 42rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 72% 18%, rgba(201,162,39,0.12), transparent 22%),
+    radial-gradient(circle at 18% 72%, rgba(142,18,20,0.18), transparent 24%),
+    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0));
+}
+
+.moo-product-page .moo-pdp-gallery-stage::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(5,4,4,0.24), transparent 18%, transparent 80%, rgba(5,4,4,0.36)),
+    linear-gradient(90deg, rgba(5,4,4,0.2), transparent 12%, transparent 88%, rgba(5,4,4,0.22));
+  pointer-events: none;
+}
+
+.moo-product-page .moo-pdp-main-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 30px 60px rgba(0,0,0,0.4));
+}
+
+.moo-product-page .moo-pdp-thumbnails {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(84px, 1fr));
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.moo-product-page .moo-pdp-thumb {
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+  background: rgba(255,255,255,0.03);
+  padding: 0.45rem;
+  cursor: pointer;
+  transition: border-color 0.25s ease, transform 0.25s ease;
+}
+
+.moo-product-page .moo-pdp-thumb img {
+  display: block;
+  width: 100%;
+  border-radius: 14px;
+}
+
+.moo-product-page .moo-pdp-thumb.is-active,
+.moo-product-page .moo-pdp-thumb:hover {
+  border-color: rgba(201, 162, 39, 0.7);
+  transform: translateY(-2px);
+}
+
+.moo-product-page .moo-pdp-highlight-card {
+  padding: 1.3rem 1.4rem 1.5rem;
+}
+
+.moo-product-page .moo-pdp-card-label {
+  font-size: 0.74rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(201, 162, 39, 0.78);
+}
+
+.moo-product-page .moo-pdp-highlight-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+  margin-top: 1rem;
+}
+
+.moo-product-page .moo-pdp-highlight-grid div {
+  padding: 1rem;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.025);
+}
+
+.moo-product-page .moo-pdp-highlight-grid strong {
+  display: block;
+  font-size: clamp(1.5rem, 2vw, 2.1rem);
+  line-height: 1;
+  color: #f5f0e8;
+}
+
+.moo-product-page .moo-pdp-highlight-grid span {
+  display: block;
+  margin-top: 0.35rem;
+  color: rgba(245,240,232,0.72);
+  line-height: 1.5;
+}
+
+.moo-product-page .moo-pdp-claim-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1rem;
+}
+
+.moo-product-page .moo-pdp-claim-list span {
+  padding: 0.55rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.76);
+}
+
+.moo-product-page .moo-pdp-purchase {
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+  padding: clamp(0.5rem, 1vw, 1rem) 0;
+}
+
+.moo-product-page .moo-pdp-brand {
+  font-size: 0.78rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(201, 162, 39, 0.82);
+}
+
+.moo-product-page .moo-pdp-kicker {
+  margin: 0;
+  color: rgba(245,240,232,0.64);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.76rem;
+}
+
+.moo-product-page .moo-pdp-title {
+  margin: 0;
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(3rem, 4.6vw, 5.2rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  color: #f5f0e8;
+}
+
+.moo-product-page .moo-pdp-intro,
+.moo-product-page .moo-pdp-description,
+.moo-product-page .moo-pdp-accordion-body,
+.moo-product-page .moo-pdp-pair-card p,
+.moo-product-page .moo-pdp-flavor-panel p {
+  color: rgba(245,240,232,0.74);
+  line-height: 1.8;
+}
+
+.moo-product-page .moo-pdp-price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.moo-product-page .moo-pdp-price {
+  font-size: clamp(2rem, 3vw, 3rem);
+  line-height: 1;
+  font-weight: 700;
+  color: #f5f0e8;
+}
+
+.moo-product-page .moo-pdp-compare {
+  margin-top: 0.35rem;
+  color: rgba(245,240,232,0.42);
+  text-decoration: line-through;
+}
+
+.moo-product-page .moo-pdp-pack-meta {
+  color: rgba(201, 162, 39, 0.84);
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.moo-product-page .moo-pdp-flavor-panel {
+  padding: 1.2rem 1.35rem;
+}
+
+.moo-product-page .moo-pdp-profile-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  color: rgba(245,240,232,0.78);
+}
+
+.moo-product-page .moo-pdp-profile-row strong {
+  color: #f5f0e8;
+}
+
+.moo-product-page .moo-pdp-field label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.68);
+}
+
+.moo-product-page .moo-pdp-select,
+.moo-product-page .moo-pdp-quantity input {
+  width: 100%;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  color: #f5f0e8;
+  min-height: 54px;
+}
+
+.moo-product-page .moo-pdp-select {
+  padding: 0 1rem;
+}
+
+.moo-product-page .moo-pdp-cta-wrap {
+  display: grid;
+  grid-template-columns: minmax(130px, 170px) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: end;
+}
+
+.moo-product-page .moo-pdp-quantity {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) 48px;
+  align-items: center;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+}
+
+.moo-product-page .moo-pdp-quantity button,
+.moo-product-page .moo-pdp-quantity input {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: #f5f0e8;
+  min-height: 54px;
+  font-size: 1rem;
+}
+
+.moo-product-page .moo-pdp-quantity button {
+  cursor: pointer;
+}
+
+.moo-product-page .moo-pdp-quantity input {
+  text-align: center;
+}
+
+.moo-product-page .moo-pdp-actions {
+  position: sticky;
+  bottom: 1rem;
+  display: grid;
+  gap: 0.9rem;
+  padding: 0.85rem;
+  border-radius: 24px;
+  background: rgba(11, 8, 8, 0.84);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.moo-product-page .moo-pdp-submit {
+  min-height: 58px;
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.moo-product-page .shopify-payment-button__button {
+  min-height: 54px;
+}
+
+.moo-product-page .moo-pdp-accordions {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.moo-product-page .moo-pdp-accordion {
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  background: rgba(255,255,255,0.025);
+  overflow: hidden;
+}
+
+.moo-product-page .moo-pdp-accordion summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 1.05rem 1.2rem;
+  font-size: 0.86rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #f5f0e8;
+}
+
+.moo-product-page .moo-pdp-accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+.moo-product-page .moo-pdp-accordion-body {
+  padding: 0 1.2rem 1.2rem;
+}
+
+.moo-product-page .moo-pdp-pair-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1.5rem;
+  align-items: center;
+  margin: 0 clamp(1.5rem, 3vw, 3rem) clamp(1.5rem, 3vw, 3rem);
+  padding: 1.5rem;
+}
+
+.moo-product-page .moo-pdp-pair-card h2 {
+  margin: 0.45rem 0 0;
+  color: #f5f0e8;
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(2rem, 3vw, 3rem);
+  line-height: 1;
+}
+
+.moo-product-page .moo-pdp-pair-cta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.moo-product-page .moo-pdp-pair-image-link {
+  display: block;
+  width: 120px;
+}
+
+.moo-product-page .moo-pdp-pair-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.35));
+}
+
+.moo-product-page .moo-pdp-pair-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 0 1.5rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #d2ab35, #a57918);
+  color: #090807;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.moo-product-page .shopify-payment-button__button--unbranded {
+  background: linear-gradient(135deg, #1d120d, #110d0a);
+  color: #f5f0e8;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.moo-product-page .shopify-payment-button__button--unbranded:hover {
+  background: linear-gradient(135deg, #281912, #16110d);
+}
+
+@media screen and (max-width: 989px) {
+  .moo-product-page .moo-pdp-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .moo-product-page .moo-pdp-gallery-stage {
+    min-height: min(82vw, 32rem);
+  }
+
+  .moo-product-page .moo-pdp-pair-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .moo-product-page .moo-pdp-shell {
+    border-radius: 24px;
+  }
+
+  .moo-product-page .moo-pdp-grid {
+    padding: 1rem;
+    gap: 1.4rem;
+  }
+
+  .moo-product-page .moo-pdp-title {
+    font-size: clamp(2.4rem, 12vw, 3.6rem);
+  }
+
+  .moo-product-page .moo-pdp-highlight-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .moo-product-page .moo-pdp-cta-wrap {
+    grid-template-columns: 1fr;
+  }
+
+  .moo-product-page .moo-pdp-actions {
+    position: sticky;
+    bottom: 0.75rem;
+  }
+
+  .moo-product-page .moo-pdp-pair-cta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

@@ -1,0 +1,333 @@
+{% liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign lower_title = product.title | downcase
+  assign is_holy_heat = false
+  assign is_honey_blaze = false
+  assign flavor_kicker = 'Signature flavor'
+  assign flavor_intro = 'Ultra-crispy real steak with a clean snap, bold aroma, and a premium finish.'
+  assign flavor_heat = '03/05'
+  assign flavor_pepper = 'Balanced'
+  assign flavor_finish = 'Clean'
+  assign flavor_story = 'Built for a crisp steak bite with a premium, savory finish.'
+  assign main_media = current_variant.featured_media | default: product.featured_media
+  assign ingredients_copy = product.metafields.custom.ingredients.value | default: product.metafields.custom.ingredients
+  assign shipping_copy = product.metafields.custom.shipping_returns.value | default: product.metafields.custom.shipping_returns
+  assign faq_copy = product.metafields.custom.faq.value | default: product.metafields.custom.faq
+  assign paired_product = product.metafields.custom.companion_product.value
+
+  if lower_title contains 'holy heat'
+    assign is_holy_heat = true
+    assign flavor_kicker = 'Bold pepper expression'
+    assign flavor_intro = 'Holy Heat opens with a brighter chili strike, a louder first crunch, and a fast savory finish that keeps the steak character front and center.'
+    assign flavor_heat = '05/05'
+    assign flavor_pepper = 'Bright'
+    assign flavor_finish = 'Fast hit'
+    assign flavor_story = 'Built for sharper pepper aroma, louder heat, and a first bite that lands hard.'
+  elsif lower_title contains 'honey blaze'
+    assign is_honey_blaze = true
+    assign flavor_kicker = 'Warm everyday heat'
+    assign flavor_intro = 'Honey Blaze keeps the warmth smoother and rounder, with a deeper beef sweetness and an easier finish that makes repeat snacking effortless.'
+    assign flavor_heat = '02/05'
+    assign flavor_pepper = 'Warm'
+    assign flavor_finish = 'Longer'
+    assign flavor_story = 'Built for an easier glow, softer spice, and a more relaxed everyday finish.'
+  endif
+
+  if ingredients_copy == blank
+    assign ingredients_copy = 'Please refer to the package panel for the most current full ingredients information.'
+  endif
+
+  if shipping_copy == blank
+    assign shipping_copy = 'Orders are packed to protect crunch and ship with standard Shopify checkout rates. Returns or support questions can be handled through your store contact flow.'
+  endif
+
+  if faq_copy == blank
+    assign faq_copy = 'Storage: keep the bag sealed in a cool, dry place. Texture: each bag is made to stay ultra-crispy and steak-forward. Questions about orders, shipping, or ingredients can be answered through your normal store support channel.'
+  endif
+
+  if paired_product == blank
+    for collection in product.collections
+      for candidate in collection.products
+        if candidate.id != product.id
+          assign paired_product = candidate
+          break
+        endif
+      endfor
+      if paired_product != blank
+        break
+      endif
+    endfor
+  endif
+
+  if paired_product == blank
+    for candidate in collections.all.products limit: 12
+      if candidate.id != product.id
+        assign paired_product = candidate
+        break
+      endif
+    endfor
+  endif
+%}
+
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'moo-product-page.js' | asset_url }}" defer="defer"></script>
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<section
+  class="moo-pdp section-{{ section.id }}-padding{% if is_holy_heat %} is-holy-heat{% elsif is_honey_blaze %} is-honey-blaze{% endif %}"
+  data-moo-product-root
+>
+  <div class="page-width">
+    <div class="moo-pdp-shell">
+      <div class="moo-pdp-grid">
+        <div class="moo-pdp-media-column">
+          <div class="moo-pdp-gallery-card">
+            <div class="moo-pdp-gallery-stage">
+              {% if main_media != blank %}
+                <img
+                  src="{{ main_media.preview_image | image_url: width: 1800 }}"
+                  alt="{{ main_media.alt | default: product.title | escape }}"
+                  class="moo-pdp-main-image"
+                  data-moo-main-image
+                  loading="eager"
+                >
+              {% endif %}
+            </div>
+
+            {% if product.media.size > 1 %}
+              <div class="moo-pdp-thumbnails" role="tablist" aria-label="Product media">
+                {% for media in product.media %}
+                  <button
+                    type="button"
+                    class="moo-pdp-thumb{% if media.id == main_media.id %} is-active{% endif %}"
+                    data-moo-thumb
+                    data-src="{{ media.preview_image | image_url: width: 1800 }}"
+                    data-alt="{{ media.alt | default: product.title | escape }}"
+                    aria-label="Show image {{ forloop.index }}"
+                  >
+                    <img
+                      src="{{ media.preview_image | image_url: width: 240 }}"
+                      alt="{{ media.alt | default: product.title | escape }}"
+                      loading="lazy"
+                    >
+                  </button>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="moo-pdp-highlight-card">
+            <div class="moo-pdp-card-label">Nutrition highlights</div>
+            <div class="moo-pdp-highlight-grid">
+              <div><strong>16g</strong><span>protein per serving</span></div>
+              <div><strong>90</strong><span>calories per 1 oz serving</span></div>
+              <div><strong>1g</strong><span>fat</span></div>
+              <div><strong>2g</strong><span>carbs</span></div>
+            </div>
+            <div class="moo-pdp-claim-list">
+              <span>Real steak</span>
+              <span>Ultra-crispy</span>
+              <span>Gluten free</span>
+              <span>No preservatives</span>
+              <span>Handcrafted in Virginia</span>
+              <span>Net wt. 4 oz / 100g</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="moo-pdp-purchase">
+          <div class="moo-pdp-brand">M&#332;&#332; Steak Chips</div>
+          <p class="moo-pdp-kicker">{{ flavor_kicker }}</p>
+          <h1 class="moo-pdp-title">{{ product.title }}</h1>
+          <p class="moo-pdp-intro">{{ flavor_intro }}</p>
+
+          <div class="moo-pdp-price-row">
+            <div>
+              <div class="moo-pdp-price" data-moo-price>{{ current_variant.price | money }}</div>
+              {% if current_variant.compare_at_price and current_variant.compare_at_price > current_variant.price %}
+                <div class="moo-pdp-compare" data-moo-compare-price>{{ current_variant.compare_at_price | money }}</div>
+              {% else %}
+                <div class="moo-pdp-compare" data-moo-compare-price hidden></div>
+              {% endif %}
+            </div>
+            <div class="moo-pdp-pack-meta">4 OZ / 100G BAG</div>
+          </div>
+
+          <div class="moo-pdp-flavor-panel">
+            <div class="moo-pdp-card-label">Flavor profile</div>
+            <div class="moo-pdp-profile-row"><span>Heat</span><strong>{{ flavor_heat }}</strong></div>
+            <div class="moo-pdp-profile-row"><span>Pepper</span><strong>{{ flavor_pepper }}</strong></div>
+            <div class="moo-pdp-profile-row"><span>Finish</span><strong>{{ flavor_finish }}</strong></div>
+            <p>{{ flavor_story }}</p>
+          </div>
+
+          <product-form class="product-form moo-pdp-form" data-hide-errors="false">
+            <div class="product-form__error-message-wrapper" role="alert" hidden>
+              <span class="product-form__error-message"></span>
+            </div>
+            {%- form 'product', product, id: 'MooProductForm-' | append: section.id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+              {% unless product.has_only_default_variant %}
+                <div class="moo-pdp-field">
+                  <label for="MooVariantSelect-{{ section.id }}">Choose option</label>
+                  <select id="MooVariantSelect-{{ section.id }}" class="moo-pdp-select" data-moo-variant-select>
+                    {% for variant in product.variants %}
+                      <option
+                        value="{{ variant.id }}"
+                        data-price="{{ variant.price | money }}"
+                        data-compare="{% if variant.compare_at_price and variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money }}{% endif %}"
+                        data-available="{{ variant.available }}"
+                        {% if variant.featured_media != blank %}
+                          data-featured="{{ variant.featured_media.preview_image | image_url: width: 1800 }}"
+                          data-featured-alt="{{ variant.featured_media.alt | default: product.title | escape }}"
+                        {% endif %}
+                        {% if variant.id == current_variant.id %}selected{% endif %}
+                      >
+                        {{ variant.title }}{% unless variant.available %} - Sold out{% endunless %}
+                      </option>
+                    {% endfor %}
+                  </select>
+                </div>
+              {% endunless %}
+
+              <input type="hidden" name="id" value="{{ current_variant.id }}" class="product-variant-id" data-moo-variant-id>
+
+              <div class="moo-pdp-cta-wrap">
+                <div class="moo-pdp-field moo-pdp-quantity-field">
+                  <label for="MooQuantity-{{ section.id }}">Quantity</label>
+                  <div class="moo-pdp-quantity">
+                    <button type="button" data-moo-qty-minus aria-label="Decrease quantity">-</button>
+                    <input
+                      id="MooQuantity-{{ section.id }}"
+                      type="number"
+                      name="quantity"
+                      min="1"
+                      value="1"
+                      inputmode="numeric"
+                      pattern="[0-9]*"
+                    >
+                    <button type="button" data-moo-qty-plus aria-label="Increase quantity">+</button>
+                  </div>
+                </div>
+
+                <div class="moo-pdp-actions">
+                  <button
+                    type="submit"
+                    name="add"
+                    class="product-form__submit moo-pdp-submit"
+                    {% unless current_variant.available %}disabled{% endunless %}
+                  >
+                    <span>{% if current_variant.available %}Add to cart{% else %}Sold out{% endif %}</span>
+                    {%- render 'loading-spinner' -%}
+                  </button>
+                  {% if section.settings.show_dynamic_checkout %}
+                    {{ form | payment_button }}
+                  {% endif %}
+                </div>
+              </div>
+            {%- endform -%}
+          </product-form>
+
+          <div class="moo-pdp-description rte">
+            {% if product.description != blank %}
+              {{ product.description }}
+            {% else %}
+              <p>Real steak, crisped into a light, ultra-crispy snack with bold flavor and a premium finish.</p>
+            {% endif %}
+          </div>
+
+          <div class="moo-pdp-accordions">
+            <details class="moo-pdp-accordion" open>
+              <summary>Ingredients</summary>
+              <div class="moo-pdp-accordion-body">
+                <p>{{ ingredients_copy }}</p>
+              </div>
+            </details>
+            <details class="moo-pdp-accordion">
+              <summary>Shipping and returns</summary>
+              <div class="moo-pdp-accordion-body">
+                <p>{{ shipping_copy }}</p>
+              </div>
+            </details>
+            <details class="moo-pdp-accordion">
+              <summary>FAQ</summary>
+              <div class="moo-pdp-accordion-body">
+                <p>{{ faq_copy }}</p>
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+
+      {% if paired_product != blank %}
+        <div class="moo-pdp-pair-card">
+          <div>
+            <div class="moo-pdp-card-label">Try the other flavor</div>
+            <h2>{{ paired_product.title }}</h2>
+            <p>Keep the same premium M&#332;&#332; crunch in rotation with the second flavor expression.</p>
+          </div>
+          <div class="moo-pdp-pair-cta">
+            {% if paired_product.featured_media != blank %}
+              <a href="{{ paired_product.url }}" class="moo-pdp-pair-image-link">
+                <img
+                  src="{{ paired_product.featured_media | image_url: width: 720 }}"
+                  alt="{{ paired_product.title | escape }}"
+                  class="moo-pdp-pair-image"
+                  loading="lazy"
+                >
+              </a>
+            {% endif %}
+            <a href="{{ paired_product.url }}" class="moo-pdp-pair-link">View details</a>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MOO Main Product",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "label": "Show Buy with Shop button",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 48
+    }
+  ]
+}
+{% endschema %}

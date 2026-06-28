@@ -227,6 +227,96 @@
     function playVideo() { document.getElementById('videoPoster').classList.add('hidden'); const video = document.getElementById('mainVideo'); video.play().catch(() => {}); }
 
 (function () {
+  async function handleHomepageAddToCart(form) {
+    const submitButton = form.querySelector('[data-add-to-cart]');
+    const submitLabel = submitButton?.querySelector('.moo-submit-label');
+    const errorWrapper = form.querySelector('.moo-home-add-error');
+    const errorMessage = errorWrapper?.querySelector('.product-form__error-message');
+    const cartDrawer = document.querySelector('cart-drawer');
+    const originalLabel = submitLabel?.textContent || 'Add to cart';
+
+    if (!submitButton) return;
+
+    submitButton.classList.add('loading');
+    submitButton.setAttribute('aria-disabled', 'true');
+    submitButton.disabled = true;
+
+    if (errorWrapper && errorMessage) {
+      errorWrapper.hidden = true;
+      errorMessage.textContent = '';
+    }
+
+    try {
+      const formData = new FormData(form);
+      const cartAddUrl = (window.routes && window.routes.cart_add_url) || '/cart/add';
+      const cartUrl = (window.routes && window.routes.cart_url) || '/cart';
+
+      if (cartDrawer && typeof cartDrawer.getSectionsToRender === 'function') {
+        formData.append(
+          'sections',
+          cartDrawer.getSectionsToRender().map((section) => section.id)
+        );
+        formData.append('sections_url', `${window.location.pathname}${window.location.search}`);
+      }
+
+      const response = await fetch(cartAddUrl, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: formData
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || result.status) {
+        throw new Error(result.description || result.message || 'Unable to add product to cart.');
+      }
+
+      if (submitLabel) submitLabel.textContent = 'Added';
+
+      if (cartDrawer && result.sections) {
+        try {
+          cartDrawer.renderContents({
+            ...result,
+            id: formData.get('id')
+          });
+
+          window.setTimeout(() => {
+            if (!cartDrawer.classList.contains('active')) {
+              document.body.classList.remove('overflow-hidden');
+              window.location.href = cartUrl;
+            }
+          }, 700);
+        } catch (drawerError) {
+          console.error('[MOO] Cart drawer render failed, redirecting to cart.', drawerError);
+          document.body.classList.remove('overflow-hidden');
+          window.location.href = cartUrl;
+          return;
+        }
+      } else {
+        window.location.href = cartUrl;
+        return;
+      }
+    } catch (error) {
+      console.error('[MOO] Homepage add to cart failed.', error);
+      document.body.classList.remove('overflow-hidden');
+
+      if (errorWrapper && errorMessage) {
+        errorWrapper.hidden = false;
+        errorMessage.textContent = error.message;
+      }
+    } finally {
+      window.setTimeout(() => {
+        submitButton.classList.remove('loading');
+        submitButton.removeAttribute('aria-disabled');
+        submitButton.disabled = form.querySelector('input[name="id"]')?.disabled || false;
+        if (submitLabel) submitLabel.textContent = originalLabel;
+      }, 1200);
+    }
+  }
+
   function bindMooLandingInteractions() {
     const menu = document.getElementById('mobileMenu');
     document.querySelectorAll('[data-moo-menu-toggle]').forEach((button) => {
@@ -247,6 +337,16 @@
         const video = document.getElementById('mainVideo');
         if (poster) poster.classList.add('hidden');
         if (video) video.play().catch(() => {});
+      });
+    });
+
+    document.querySelectorAll('.moo-home-add-form').forEach((form) => {
+      if (form.dataset.bound === 'true') return;
+      form.dataset.bound = 'true';
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        handleHomepageAddToCart(form);
       });
     });
   }

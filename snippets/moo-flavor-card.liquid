@@ -111,20 +111,23 @@
     </div>
     <div class="flex items-center gap-4">
       {% if product != blank and current_variant != blank %}
-        <product-form class="product-form moo-flavor-form" data-hide-errors="false" data-section-id="{{ section_id }}">
-          <div class="product-form__error-message-wrapper" role="alert" hidden>
+        {%- form 'product', product, id: form_id, class: 'moo-home-add-form', novalidate: 'novalidate' -%}
+          <input type="hidden" name="id" value="{{ current_variant.id }}" {% unless current_variant.available %}disabled{% endunless %}>
+          <input type="hidden" name="quantity" value="1">
+          <div class="product-form__error-message-wrapper moo-home-add-error" role="alert" hidden>
             <span class="product-form__error-message"></span>
           </div>
-          {%- form 'product', product, id: form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
-            <input type="hidden" name="id" value="{{ current_variant.id }}" {% unless current_variant.available %}disabled{% endunless %} class="product-variant-id">
-            <div class="product-form__buttons">
-              <button type="submit" name="add" class="product-form__submit button button--primary btn-primary btn-duel moo-submit" {% unless current_variant.available %}disabled{% endunless %}>
-                <span>{% if current_variant.available %}{{ button_label }}{% else %}Sold out{% endif %}</span>
-                {%- render 'loading-spinner' -%}
-              </button>
-            </div>
-          {%- endform -%}
-        </product-form>
+          <button
+            type="submit"
+            name="add"
+            class="button button--primary btn-primary btn-duel moo-submit"
+            data-add-to-cart
+            {% unless current_variant.available %}disabled{% endunless %}
+          >
+            <span class="moo-submit-label">{% if current_variant.available %}{{ button_label }}{% else %}Sold out{% endif %}</span>
+            {%- render 'loading-spinner' -%}
+          </button>
+        {%- endform -%}
         <a href="{{ product.url }}" class="moo-flavor-link">View details</a>
       {% else %}
         <button type="button" class="btn-primary btn-duel moo-submit" disabled>
