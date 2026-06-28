@@ -78,7 +78,14 @@
       <div class="scene-pack-wrap">
         {% if product != blank %}
           <a href="{{ product_url }}" class="scene-pack-link">
-            {% if product.featured_media != blank %}
+            {% if override_image != blank %}
+              <img
+                src="{{ override_image | image_url: width: 900 }}"
+                alt="{{ image_alt }}"
+                class="scene-pack-image"
+                loading="lazy"
+              >
+            {% elsif product.featured_media != blank %}
               <img
                 src="{{ product.featured_media | image_url: width: 900 }}"
                 alt="{{ image_alt }}"

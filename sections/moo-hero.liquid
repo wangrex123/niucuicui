@@ -3,12 +3,12 @@
 %}
 <div id="loader" class="loader">
   <div class="loader-counter" id="loaderCounter">00</div>
-  <div class="loader-text">MOO</div>
+  <div class="loader-text">M&#332;&#332;</div>
   <div class="loader-bar-track"><div class="loader-bar-fill" id="loaderBar"></div></div>
 </div>
 
 <nav class="main-nav" id="mainNav">
-  <a href="{{ routes.root_url }}" class="font-serif text-2xl text-moo-goldLight">MOO</a>
+  <a href="{{ routes.root_url }}" class="font-serif text-lg md:text-xl lg:text-2xl leading-none text-moo-goldLight max-w-[11rem] md:max-w-none">M&#332;&#332; Steak Chips</a>
   <div class="hidden md:flex items-center gap-10">
     <a href="#flavors" class="nav-link">Flavors</a>
     <a href="#process" class="nav-link">Process</a>
@@ -54,14 +54,14 @@
   <div class="container mx-auto px-6 relative z-10">
     <div class="hero-grid">
       <div class="hero-copy">
-        <div class="hero-eyebrow reveal-text" id="heroSubtitle"><span class="reveal-text-inner">MOO Steak Chips - The Art of Crisp</span></div>
+        <div class="hero-eyebrow reveal-text" id="heroSubtitle"><span class="reveal-text-inner">M&#332;&#332; Steak Chips - Ultra-crispy real steak snack</span></div>
         <h1 class="hero-title mt-5 reveal-text" id="heroTitle"><span class="reveal-text-inner">STEAK CHIPS</span></h1>
-        <p class="hero-desc reveal-text" id="heroDesc"><span class="reveal-text-inner">Real steak, crisped into a light snack with an instant crackle and deep savory finish. Made from grass-fed beef hind leg, slow-crisped for 72 hours with a clean ingredient list and real meat texture.</span></p>
-        <div class="hero-sensory-strip reveal-text" style="transition-delay: 0.24s"><span class="reveal-text-inner">Paper-thin beef crisps</span><span class="reveal-text-inner">Facing heaven heat</span><span class="reveal-text-inner">Addictive crackle</span></div>
+        <p class="hero-desc reveal-text" id="heroDesc"><span class="reveal-text-inner">Real steak, crisped into a light high-protein snack with bold flavor and an addictive crunch.</span></p>
+        <div class="hero-sensory-strip reveal-text" style="transition-delay: 0.24s"><span class="reveal-text-inner">Real Steak</span><span class="reveal-text-inner">Ultra-crispy</span><span class="reveal-text-inner">Handcrafted in Virginia</span></div>
         <div class="hero-proof">
-          <div class="hero-proof-item"><span class="hero-proof-value">72H</span><span class="hero-proof-label">Low-temp crisp</span></div>
-          <div class="hero-proof-item"><span class="hero-proof-value">55g</span><span class="hero-proof-label">Protein / 100g</span></div>
-          <div class="hero-proof-item"><span class="hero-proof-value">0</span><span class="hero-proof-label">No preservatives</span></div>
+          <div class="hero-proof-item"><span class="hero-proof-value">16g</span><span class="hero-proof-label">Protein</span></div>
+          <div class="hero-proof-item"><span class="hero-proof-value">90</span><span class="hero-proof-label">Calories</span></div>
+          <div class="hero-proof-item"><span class="hero-proof-value">0</span><span class="hero-proof-label">No Preservatives</span></div>
         </div>
         <div class="hero-actions">
           <div class="reveal-text" style="transition-delay: 0.3s">
@@ -72,19 +72,23 @@
               </a>
             </span>
           </div>
-          <div class="hero-note reveal-text" style="transition-delay: 0.45s"><span class="reveal-text-inner">Grass-fed beef - Handcrafted in Virginia</span></div>
+          <div class="hero-note reveal-text" style="transition-delay: 0.45s"><span class="reveal-text-inner">90 calories per 1 oz serving &bull; Gluten free</span></div>
         </div>
       </div>
 
-      <div class="hero-product" id="heroProduct">
+      <div class="hero-product hero-product-duo" id="heroProduct">
         <div class="hero-product-shadow"></div>
         <div class="hero-product-stage">
           <div class="hero-product-depth"></div>
           <div class="hero-product-inner">
-            <img src="{{ 'moo-hero-pack-fixed.png' | asset_url }}" alt="MOO product package" class="hero-pack-image">
+            {% if section.settings.hero_duo_image != blank %}
+              <img src="{{ section.settings.hero_duo_image | image_url: width: 2200 }}" alt="M&#332;&#332; Steak Chips Holy Heat and Honey Blaze hero image" class="hero-pack-image">
+            {% else %}
+              <img src="{{ 'moo-hero-duo-products.png' | asset_url }}" alt="M&#332;&#332; Steak Chips Holy Heat and Honey Blaze hero image" class="hero-pack-image">
+            {% endif %}
           </div>
         </div>
-        <div class="hero-caption">real steak - low-temp crisp - ultra crispy</div>
+        <div class="hero-caption">holy heat - honey blaze - real steak - ultra-crispy</div>
       </div>
     </div>
   </div>
@@ -97,7 +101,13 @@
 {% schema %}
 {
   "name": "MOO Hero",
-  "settings": [],
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "hero_duo_image",
+      "label": "Hero duo image"
+    }
+  ],
   "presets": [
     {
       "name": "MOO Hero"

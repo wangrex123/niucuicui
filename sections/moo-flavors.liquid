@@ -11,7 +11,7 @@
         <div class="profile-row"><span class="profile-label">Pepper</span><div class="profile-track"><i class="active"></i><i class="active"></i><i class="active"></i><i class="active"></i><i></i></div><span class="profile-value">bright</span></div>
         <div class="profile-row"><span class="profile-label">Finish</span><div class="profile-track"><i class="active"></i><i class="active"></i><i class="active"></i><i></i><i></i></div><span class="profile-value">fast hit</span></div>
       {% endcapture %}
-      {% render 'moo-flavor-card', product: section.settings.holy_heat_product, section_id: section.id, flavor_key: 'holy-heat', card_class: 'flavor-card-spicy', glyph: 'HOT', number_label: '01 / 02', mood: 'For bold cravings', fallback_title: 'Holy Heat', title_primary: 'Holy', title_secondary: 'Heat', subtitle: 'Bright pepper strike', description: 'Holy Heat brings the facing heaven chili forward immediately, then lets the clean crackle and savory beef finish land hard. Built for the first bite that feels loud, vivid, and unforgettable.', profile_markup: spicy_profile, notes: 'Fast front heat|Bigger chili aroma|Made for spice lovers' | split: '|', scene_class: 'flavor-scene-spicy', scene_badge: 'Holy Heat', scene_tag: 'holy heat', scene_caption: 'front-loaded pepper heat with a brighter, harder snap', button_label: 'Add to cart', asset_image: 'moo-pack-spicy-v1.png' %}
+      {% render 'moo-flavor-card', product: section.settings.holy_heat_product, override_image: section.settings.holy_heat_card_image, section_id: section.id, flavor_key: 'holy-heat', card_class: 'flavor-card-spicy', glyph: 'HOT', number_label: '01 / 02', mood: 'For bold cravings', fallback_title: 'Holy Heat', title_primary: 'Holy', title_secondary: 'Heat', subtitle: 'Bright pepper strike', description: 'Holy Heat brings the facing heaven chili forward immediately, then lets the clean crackle and savory beef finish land hard. Built for the first bite that feels loud, vivid, and unforgettable.', profile_markup: spicy_profile, notes: 'Fast front heat|Bigger chili aroma|Made for spice lovers' | split: '|', scene_class: 'flavor-scene-spicy', scene_badge: 'Holy Heat', scene_tag: 'holy heat', scene_caption: 'front-loaded pepper heat with a brighter, harder snap', button_label: 'Add to cart', asset_image: 'moo-pack-spicy-v1.png' %}
       <div class="showdown-divider" aria-hidden="true">
         <div class="showdown-divider-badge">VS</div>
         <div class="showdown-divider-copy">same beef different heat</div>
@@ -21,7 +21,7 @@
         <div class="profile-row"><span class="profile-label">Pepper</span><div class="profile-track"><i class="active"></i><i class="active"></i><i class="active"></i><i></i><i></i></div><span class="profile-value">warm</span></div>
         <div class="profile-row"><span class="profile-label">Finish</span><div class="profile-track"><i class="active"></i><i class="active"></i><i class="active"></i><i class="active"></i><i></i></div><span class="profile-value">longer</span></div>
       {% endcapture %}
-      {% render 'moo-flavor-card', product: section.settings.honey_blaze_product, section_id: section.id, flavor_key: 'honey-blaze', card_class: 'flavor-card-mild', glyph: 'MILD', number_label: '02 / 02', mood: 'For everyday stash', fallback_title: 'Honey Blaze', title_primary: 'Honey', title_secondary: 'Blaze', subtitle: 'Warm amber finish', description: 'Honey Blaze keeps the chili warm and aromatic while letting the sweeter side of the beef linger longer. It is the smoother, easier bag for repeat opens and slower snacking.', profile_markup: mild_profile, notes: 'Easy mild heat|More beef-forward|Perfect for daily snacking' | split: '|', scene_class: 'flavor-scene-mild', scene_badge: 'Honey Blaze', scene_tag: 'honey blaze', scene_caption: 'warmer aroma, softer heat, and a longer everyday finish', button_label: 'Add to cart', asset_image: 'moo-pack-mild-v1.png' %}
+      {% render 'moo-flavor-card', product: section.settings.honey_blaze_product, override_image: section.settings.honey_blaze_card_image, section_id: section.id, flavor_key: 'honey-blaze', card_class: 'flavor-card-mild', glyph: 'MILD', number_label: '02 / 02', mood: 'For everyday stash', fallback_title: 'Honey Blaze', title_primary: 'Honey', title_secondary: 'Blaze', subtitle: 'Warm amber finish', description: 'Honey Blaze keeps the chili warm and aromatic while letting the sweeter side of the beef linger longer. It is the smoother, easier bag for repeat opens and slower snacking.', profile_markup: mild_profile, notes: 'Easy mild heat|More beef-forward|Perfect for daily snacking' | split: '|', scene_class: 'flavor-scene-mild', scene_badge: 'Honey Blaze', scene_tag: 'honey blaze', scene_caption: 'warmer aroma, softer heat, and a longer everyday finish', button_label: 'Add to cart', asset_image: 'moo-pack-mild-v1.png' %}
     </div>
   </div>
 </section>
@@ -36,9 +36,19 @@
       "label": "Holy Heat product"
     },
     {
+      "type": "image_picker",
+      "id": "holy_heat_card_image",
+      "label": "Holy Heat card image"
+    },
+    {
       "type": "product",
       "id": "honey_blaze_product",
       "label": "Honey Blaze product"
+    },
+    {
+      "type": "image_picker",
+      "id": "honey_blaze_card_image",
+      "label": "Honey Blaze card image"
     }
   ],
   "presets": [

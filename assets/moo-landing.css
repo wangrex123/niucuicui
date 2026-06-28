@@ -286,11 +286,14 @@
     }
     .hero-product {
       position: relative;
-      width: min(36vw, 492px);
+      width: min(48vw, 760px);
       margin-left: auto;
       z-index: 4;
       perspective: 1800px;
       pointer-events: none;
+    }
+    .hero-product.hero-product-duo {
+      width: min(48vw, 760px);
     }
     .hero-product::before {
       content: '';
@@ -308,6 +311,9 @@
       transition: transform 0.18s ease-out;
       pointer-events: none;
     }
+    .hero-product.hero-product-duo .hero-product-stage {
+      transform: translate3d(0, 0, 0);
+    }
     .hero-product-depth {
       position: absolute;
       top: 10%;
@@ -320,6 +326,9 @@
       box-shadow: 18px 22px 42px rgba(0,0,0,0.24), 6px 10px 14px rgba(134,15,20,0.1);
       pointer-events: none;
       opacity: 0.58;
+    }
+    .hero-product.hero-product-duo .hero-product-depth {
+      display: none;
     }
     .hero-product-depth::before {
       content: '';
@@ -353,6 +362,14 @@
       pointer-events: none;
       opacity: 0.88;
     }
+    .hero-product.hero-product-duo .hero-product-shadow {
+      left: 16%;
+      right: 14%;
+      bottom: 4%;
+      height: 14%;
+      filter: blur(26px);
+      transform: translate3d(0, 18px, -80px);
+    }
     .hero-product-inner {
       position: relative;
       width: 100%;
@@ -373,6 +390,9 @@
       filter: blur(1px);
       pointer-events: none;
     }
+    .hero-product.hero-product-duo .hero-product-inner::before {
+      inset: 16% 18% 26% 20%;
+    }
     .hero-product-inner::after {
       content: '';
       position: absolute;
@@ -380,6 +400,9 @@
       background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.16), transparent 42%);
       filter: blur(18px);
       pointer-events: none;
+    }
+    .hero-product.hero-product-duo .hero-product-inner::after {
+      inset: 18% 14% 24%;
     }
     .hero-pack-image {
       position: relative;
@@ -393,6 +416,9 @@
       transform: translateZ(8px) translate3d(0, 0, 0);
       pointer-events: none;
     }
+    .hero-product.hero-product-duo .hero-pack-image {
+      filter: drop-shadow(0 24px 60px rgba(0,0,0,0.46)) drop-shadow(0 0 28px rgba(122,11,18,0.18));
+    }
     .hero-caption {
       position: absolute;
       right: -2rem;
@@ -404,6 +430,10 @@
       text-transform: uppercase;
       color: rgba(232,213,163,0.56);
       pointer-events: none;
+    }
+    .hero-product.hero-product-duo .hero-caption {
+      right: -1rem;
+      top: 14%;
     }
     @keyframes sheen {
       0%, 100% { transform: translateX(-100%); }
@@ -1234,8 +1264,9 @@
     @media (max-width: 1024px) {
       .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; min-height: auto; padding: 7.5rem 0 4.5rem; }
       .hero-copy { max-width: none; }
-      .hero-product { width: min(74vw, 400px); margin: 0 auto; }
+      .hero-product { width: min(82vw, 560px); margin: 0 auto; }
       .hero-product-stage { transform: rotateY(-7deg) rotateX(1.6deg) translate3d(0, 0, 0); }
+      .hero-product.hero-product-duo .hero-product-stage { transform: translate3d(0, 0, 0); }
       .hero-caption { right: -1rem; }
       .showdown-stage { grid-template-columns: 1fr; }
       .showdown-divider {
@@ -1268,10 +1299,13 @@
       .hero-title { font-size: clamp(4.2rem, 22vw, 6.4rem); }
       .hero-desc { font-size: 0.95rem; }
       .hero-proof { grid-template-columns: 1fr; max-width: none; }
-      .hero-product { width: min(84vw, 340px); }
+      .hero-product { width: min(92vw, 430px); }
       .hero-product-stage { transform: rotateY(-6deg) rotateX(1.2deg) translate3d(0, 0, 0); }
+      .hero-product.hero-product-duo .hero-product-stage { transform: translate3d(0, 0, 0); }
       .hero-product-depth { right: 2%; width: 8.5%; transform: translate3d(10px, 5px, -18px); }
+      .hero-product.hero-product-duo .hero-product-depth { display: none; }
       .hero-product-depth::before { inset: 4% auto 6% -12px; width: 12px; }
+      .hero-product.hero-product-duo .hero-product-shadow { left: 14%; right: 12%; bottom: 6%; height: 16%; }
       .hero-fall-item { opacity: calc(var(--item-opacity, 0.2) * 0.75); }
       .hero-caption { display: none; }
       .horizontal-section { padding: 5.5rem 0; }
