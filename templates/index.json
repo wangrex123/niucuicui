@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -15,12 +24,17 @@
     "video": {
       "type": "moo-video",
       "settings": {
+        "video_url": "",
         "caption": "Replace this placeholder with your hosted brand video when ready."
       }
     },
     "flavors": {
       "type": "moo-flavors",
-      "settings": {}
+      "settings": {
+        "holy_heat_product": "",
+        "holy_heat_card_image": "shopify://shop_images/ChatGPTImageJun27_2026_10_30_45PM_4.png",
+        "honey_blaze_product": ""
+      }
     },
     "testimonials": {
       "type": "moo-testimonials",
@@ -70,7 +84,12 @@
           }
         }
       },
-      "block_order": ["q1", "q2", "q3", "q4"],
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4"
+      ],
       "settings": {}
     },
     "cta": {
@@ -82,5 +101,14 @@
       "settings": {}
     }
   },
-  "order": ["hero", "marquee", "process", "video", "flavors", "testimonials", "cta", "footer"]
+  "order": [
+    "hero",
+    "marquee",
+    "process",
+    "video",
+    "flavors",
+    "testimonials",
+    "cta",
+    "footer"
+  ]
 }
