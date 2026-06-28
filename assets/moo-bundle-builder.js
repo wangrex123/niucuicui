@@ -203,17 +203,13 @@
 
       try {
         const cartDrawer = document.querySelector('cart-drawer');
+        const cartUrl = window.routes?.cart_url || '/cart';
         const body = {
           items: items.map((item) => ({
             id: Number(item.variantId),
             quantity: item.quantity,
           })),
         };
-
-        if (cartDrawer && typeof cartDrawer.getSectionsToRender === 'function') {
-          body.sections = cartDrawer.getSectionsToRender().map((section) => section.id);
-          body.sections_url = window.location.pathname;
-        }
 
         const response = await fetch(`${window.routes?.cart_add_url || '/cart/add'}.js`, {
           method: 'POST',
@@ -230,20 +226,33 @@
           throw new Error(parsed.description || parsed.message || 'Could not add bundle to cart.');
         }
 
-        if (cartDrawer && parsed.sections && typeof cartDrawer.renderContents === 'function') {
+        if (window.MooCartUI?.updateMooHeaderCartCount) {
+          window.MooCartUI.updateMooHeaderCartCount(parsed.item_count || 0);
+        }
+
+        if (cartDrawer && typeof cartDrawer.renderContents === 'function' && window.MooCartUI?.fetchCartStateWithSections) {
           try {
+            const refreshedCart = await window.MooCartUI.fetchCartStateWithSections();
+            if (!refreshedCart?.sections?.['cart-drawer']) {
+              throw new Error('Cart drawer sections did not refresh.');
+            }
+
+            if (window.MooCartUI?.applyCartSectionState) {
+              window.MooCartUI.applyCartSectionState(refreshedCart);
+            }
+
             cartDrawer.renderContents({
-              ...parsed,
+              ...refreshedCart,
               id: items[0].variantId,
             });
             this.setStatus('Bundle added. Your cart is open.');
           } catch (drawerError) {
             console.error('[MOO] Bundle drawer render failed.', drawerError);
-            window.location.href = window.routes?.cart_url || '/cart';
+            window.location.href = cartUrl;
             return;
           }
         } else {
-          window.location.href = window.routes?.cart_url || '/cart';
+          window.location.href = cartUrl;
           return;
         }
 

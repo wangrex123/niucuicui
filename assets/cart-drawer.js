@@ -77,8 +77,18 @@ class CartDrawer extends HTMLElement {
   }
 
   renderContents(parsedState) {
-    this.querySelector('.drawer__inner').classList.contains('is-empty') &&
-      this.querySelector('.drawer__inner').classList.remove('is-empty');
+    const itemCount = Number(parsedState?.item_count || parsedState?.items?.length || 0);
+    const drawerInner = this.querySelector('.drawer__inner');
+
+    this.classList.toggle('is-empty', itemCount === 0);
+    if (drawerInner?.classList.contains('is-empty')) {
+      drawerInner.classList.remove('is-empty');
+    }
+
+    if (window.MooCartUI?.updateMooHeaderCartCount) {
+      window.MooCartUI.updateMooHeaderCartCount(itemCount);
+    }
+
     this.productId = parsedState.id;
     this.getSectionsToRender().forEach((section) => {
       const sectionElement = section.selector

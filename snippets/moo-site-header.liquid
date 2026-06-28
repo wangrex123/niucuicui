@@ -53,9 +53,7 @@
       {% unless has_cart_link %}
         <a href="{{ routes.cart_url }}" class="moo-site-header__link moo-site-header__cart-link{% if request.path == routes.cart_url %} is-active{% endif %}">
           <span>Cart</span>
-          {% if cart_count > 0 %}
-            <span class="moo-site-header__count">{{ cart_count }}</span>
-          {% endif %}
+          <span class="moo-site-header__count"{% if cart_count == 0 %} hidden{% endif %}>{{ cart_count }}</span>
         </a>
       {% endunless %}
     </nav>
@@ -63,9 +61,7 @@
     <div class="moo-site-header__actions">
       <a href="{{ routes.cart_url }}" class="moo-site-header__cart-link moo-site-header__cart-link--compact{% if request.path == routes.cart_url %} is-active{% endif %}" aria-label="View cart">
         <span>Cart</span>
-        {% if cart_count > 0 %}
-          <span class="moo-site-header__count">{{ cart_count }}</span>
-        {% endif %}
+        <span class="moo-site-header__count"{% if cart_count == 0 %} hidden{% endif %}>{{ cart_count }}</span>
       </a>
       <button type="button" class="moo-site-header__toggle" data-moo-site-menu-toggle aria-label="Open navigation">
         <span></span>
@@ -104,7 +100,7 @@
 
         {% unless has_cart_link %}
           <a href="{{ routes.cart_url }}" class="moo-site-header__mobile-link{% if request.path == routes.cart_url %} is-active{% endif %}" data-moo-site-menu-close>
-            Cart{% if cart_count > 0 %} ({{ cart_count }}){% endif %}
+            Cart<span class="moo-site-header__count"{% if cart_count == 0 %} hidden{% endif %}>{{ cart_count }}</span>
           </a>
         {% endunless %}
       </nav>

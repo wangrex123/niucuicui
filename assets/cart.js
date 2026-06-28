@@ -12,6 +12,108 @@ class CartRemoveButton extends HTMLElement {
 
 customElements.define('cart-remove-button', CartRemoveButton);
 
+function updateMooHeaderCartCount(itemCount) {
+  document.querySelectorAll('.moo-site-header__count').forEach((badge) => {
+    const count = Math.max(0, Number(itemCount || 0));
+    badge.textContent = String(count);
+    badge.hidden = count === 0;
+  });
+}
+
+function getCartSectionDescriptors() {
+  const descriptors = [];
+  const seen = new Set();
+
+  const pushDescriptor = (sectionKey, getMount, selector) => {
+    if (!sectionKey || seen.has(sectionKey)) return;
+    seen.add(sectionKey);
+    descriptors.push({ sectionKey, getMount, selector });
+  };
+
+  pushDescriptor('cart-drawer', () => document.getElementById('CartDrawer'), '#CartDrawer');
+  pushDescriptor('cart-live-region-text', () => document.getElementById('cart-live-region-text'), '.shopify-section');
+
+  const mainCartItems = document.getElementById('main-cart-items');
+  if (mainCartItems?.dataset.id) {
+    pushDescriptor(
+      mainCartItems.dataset.id,
+      () => document.getElementById('main-cart-items')?.querySelector('.js-contents') || document.getElementById('main-cart-items'),
+      '.js-contents'
+    );
+  }
+
+  const mainCartFooter = document.getElementById('main-cart-footer');
+  if (mainCartFooter?.dataset.id) {
+    pushDescriptor(
+      mainCartFooter.dataset.id,
+      () => document.getElementById('main-cart-footer')?.querySelector('.js-contents') || document.getElementById('main-cart-footer'),
+      '.js-contents'
+    );
+  }
+
+  return descriptors;
+}
+
+function getSectionContent(html, selector) {
+  const documentFragment = new DOMParser().parseFromString(html, 'text/html');
+  const source = documentFragment.querySelector(selector) || documentFragment.querySelector('.shopify-section') || documentFragment.body;
+  return source ? source.innerHTML : '';
+}
+
+function applyCartSectionState(cartData, descriptors = getCartSectionDescriptors()) {
+  descriptors.forEach(({ sectionKey, getMount, selector }) => {
+    const mount = getMount();
+    const html = cartData?.sections?.[sectionKey];
+    if (!mount || !html) return;
+
+    mount.innerHTML = getSectionContent(html, selector);
+  });
+
+  updateMooHeaderCartCount(cartData?.item_count || 0);
+
+  const cartDrawer = document.querySelector('cart-drawer');
+  if (cartDrawer) {
+    cartDrawer.classList.toggle('is-empty', (cartData?.item_count || 0) === 0);
+    cartDrawer.querySelector('.drawer__inner')?.classList.toggle('is-empty', (cartData?.item_count || 0) === 0);
+  }
+
+  const cartFooter = document.getElementById('main-cart-footer');
+  if (cartFooter) cartFooter.classList.toggle('is-empty', (cartData?.item_count || 0) === 0);
+
+  const cartItems = document.querySelector('cart-items');
+  if (cartItems) cartItems.classList.toggle('is-empty', (cartData?.item_count || 0) === 0);
+}
+
+async function fetchCartStateWithSections(descriptors = getCartSectionDescriptors()) {
+  const sectionKeys = descriptors.map((descriptor) => descriptor.sectionKey).filter(Boolean);
+  const cartUrl = (typeof routes !== 'undefined' && routes?.cart_url) || '/cart';
+  const url = new URL(`${cartUrl}.js`, window.location.origin);
+
+  if (sectionKeys.length) {
+    url.searchParams.set('sections', sectionKeys.join(','));
+  }
+
+  const response = await fetch(url.toString(), {
+    headers: {
+      Accept: 'application/json',
+      'X-Requested-With': 'XMLHttpRequest',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('Unable to refresh cart sections.');
+  }
+
+  return response.json();
+}
+
+window.MooCartUI = {
+  getCartSectionDescriptors,
+  applyCartSectionState,
+  fetchCartStateWithSections,
+  updateMooHeaderCartCount,
+};
+
 class CartItems extends window.StandardEvents.createViewEventElement(HTMLElement) {
   constructor() {
     super();
@@ -182,13 +284,13 @@ class CartItems extends window.StandardEvents.createViewEventElement(HTMLElement
     const sectionsToRender = this.getSectionsToRender();
 
     const body = JSON.stringify({
-      line,
+      id: lineKey || line,
       quantity,
       sections: sectionsToRender.map((section) => section.section),
       sections_url: window.location.pathname,
     });
 
-    fetch(`${routes.cart_change_url}`, { ...fetchConfig(), ...{ body } })
+    fetch(`${routes.cart_change_url}.js`, { ...fetchConfig(), ...{ body } })
       .then((response) => {
         return response.text();
       })
@@ -203,57 +305,65 @@ class CartItems extends window.StandardEvents.createViewEventElement(HTMLElement
         }
 
         CartPerformance.measure(`${eventTarget}:paint-updated-sections`, () => {
-          const quantityElement =
-            document.getElementById(`Quantity-${line}`) || document.getElementById(`Drawer-quantity-${line}`);
-          const items = document.querySelectorAll('.cart-item');
-
           if (parsedState.errors) {
-            quantityElement.value = quantityElement.getAttribute('value');
+            if (quantityInput) quantityInput.value = quantityInput.getAttribute('value');
             this.updateLiveRegions(line, parsedState.errors);
             return;
           }
 
-          this.classList.toggle('is-empty', parsedState.item_count === 0);
-          const cartDrawerWrapper = document.querySelector('cart-drawer');
-          const cartFooter = document.getElementById('main-cart-footer');
+          try {
+            sectionsToRender.forEach((section) => {
+              const targetRoot = document.getElementById(section.id);
+              if (!targetRoot || !parsedState.sections?.[section.section]) return;
 
-          if (cartFooter) cartFooter.classList.toggle('is-empty', parsedState.item_count === 0);
-          if (cartDrawerWrapper) cartDrawerWrapper.classList.toggle('is-empty', parsedState.item_count === 0);
+              const elementToReplace = targetRoot.querySelector(section.selector) || targetRoot;
+              elementToReplace.innerHTML = this.getSectionInnerHTML(parsedState.sections[section.section], section.selector);
+            });
 
-          sectionsToRender.forEach((section) => {
-            const elementToReplace =
-              document.getElementById(section.id).querySelector(section.selector) ||
-              document.getElementById(section.id);
-            elementToReplace.innerHTML = this.getSectionInnerHTML(
-              parsedState.sections[section.section],
-              section.selector
-            );
-          });
-          const updatedValue = parsedState.items[line - 1] ? parsedState.items[line - 1].quantity : undefined;
-          let message = '';
-          if (items.length === parsedState.items.length && updatedValue !== parseInt(quantityElement.value)) {
-            if (typeof updatedValue === 'undefined') {
-              message = window.cartStrings.error;
-            } else {
-              message = window.cartStrings.quantityError.replace('[quantity]', updatedValue);
+            updateMooHeaderCartCount(parsedState.item_count || 0);
+            this.classList.toggle('is-empty', parsedState.item_count === 0);
+
+            const cartDrawerWrapper = document.querySelector('cart-drawer');
+            const cartFooter = document.getElementById('main-cart-footer');
+
+            if (cartFooter) cartFooter.classList.toggle('is-empty', parsedState.item_count === 0);
+            if (cartDrawerWrapper) cartDrawerWrapper.classList.toggle('is-empty', parsedState.item_count === 0);
+
+            const updatedItem = lineKey ? parsedState.items.find((item) => item.key === lineKey) : parsedState.items[line - 1];
+            const refreshedQuantityInput =
+              (lineKey && this.querySelector(`[data-quantity-line-key="${CSS.escape(lineKey)}"]`)) ||
+              document.getElementById(`Quantity-${line}`) ||
+              document.getElementById(`Drawer-quantity-${line}`);
+            let message = '';
+
+            if (updatedItem && refreshedQuantityInput) {
+              const renderedValue = parseInt(refreshedQuantityInput.value, 10);
+              if (!Number.isNaN(renderedValue) && renderedValue !== updatedItem.quantity) {
+                refreshedQuantityInput.value = updatedItem.quantity;
+                message = window.cartStrings.quantityError.replace('[quantity]', updatedItem.quantity);
+              }
             }
-          }
-          this.updateLiveRegions(line, message);
 
-          const lineItem =
-            document.getElementById(`CartItem-${line}`) || document.getElementById(`CartDrawer-Item-${line}`);
-          if (lineItem && lineItem.querySelector(`[name="${name}"]`)) {
-            cartDrawerWrapper
-              ? trapFocus(cartDrawerWrapper, lineItem.querySelector(`[name="${name}"]`))
-              : lineItem.querySelector(`[name="${name}"]`).focus();
-          } else if (parsedState.item_count === 0 && cartDrawerWrapper?.querySelector('.drawer__inner-empty')) {
-            trapFocus(cartDrawerWrapper.querySelector('.drawer__inner-empty'), cartDrawerWrapper.querySelector('a'));
-          } else if (document.querySelector('.cart-item') && cartDrawerWrapper) {
-            trapFocus(cartDrawerWrapper, document.querySelector('.cart-item__name'));
+            this.updateLiveRegions(line, message);
+
+            const lineItem =
+              document.getElementById(`CartItem-${line}`) || document.getElementById(`CartDrawer-Item-${line}`);
+            if (lineItem && lineItem.querySelector(`[name="${name}"]`)) {
+              cartDrawerWrapper
+                ? trapFocus(cartDrawerWrapper, lineItem.querySelector(`[name="${name}"]`))
+                : lineItem.querySelector(`[name="${name}"]`).focus();
+            } else if (parsedState.item_count === 0 && cartDrawerWrapper?.querySelector('.drawer__inner-empty')) {
+              trapFocus(cartDrawerWrapper.querySelector('.drawer__inner-empty'), cartDrawerWrapper.querySelector('a'));
+            } else if (document.querySelector('.cart-item') && cartDrawerWrapper) {
+              trapFocus(cartDrawerWrapper, document.querySelector('.cart-item__name'));
+            }
+          } catch (renderError) {
+            console.error('[MOO] Cart section render failed after quantity update.', renderError);
+            window.location.href = window.routes.cart_url;
           }
         });
 
-        publish(PUB_SUB_EVENTS.cartUpdate, { source: 'cart-items', cartData: parsedState, variantId: variantId });
+        publish(PUB_SUB_EVENTS.cartUpdate, { source: 'cart-items', cartData: parsedState, variantId: lineVariantId });
       })
       .catch((e) => {
         this.querySelectorAll('.loading__spinner').forEach((overlay) => overlay.classList.add('hidden'));
