@@ -1,0 +1,198 @@
+.moo-promo-popup[hidden] {
+  display: none !important;
+}
+
+.moo-promo-popup {
+  position: fixed;
+  inset: 0;
+  z-index: 130;
+  pointer-events: none;
+}
+
+.moo-promo-popup__backdrop {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 82% 82%, rgba(145, 18, 16, 0.12), transparent 0 26%);
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.moo-promo-popup__dialog {
+  position: absolute;
+  right: clamp(1.6rem, 3vw, 3.2rem);
+  bottom: clamp(1.6rem, 3vw, 3.2rem);
+  width: min(42rem, calc(100vw - 3.2rem));
+  padding: 2.2rem 2.2rem 2rem;
+  border-radius: 2.6rem;
+  border: 1px solid rgba(232, 213, 163, 0.14);
+  background:
+    radial-gradient(circle at top right, rgba(154, 20, 18, 0.32), transparent 0 42%),
+    linear-gradient(180deg, rgba(26, 10, 8, 0.97), rgba(9, 7, 7, 0.98));
+  box-shadow:
+    0 2.4rem 6rem rgba(0, 0, 0, 0.42),
+    0 0 0 1px rgba(255, 255, 255, 0.02) inset,
+    0 0 4rem rgba(141, 21, 18, 0.16);
+  color: #f4ede3;
+  pointer-events: auto;
+  opacity: 0;
+  transform: translate3d(0, 1.8rem, 0) scale(0.98);
+  transition: opacity 240ms ease, transform 260ms ease;
+}
+
+.moo-promo-popup.is-visible {
+  pointer-events: auto;
+}
+
+.moo-promo-popup.is-visible .moo-promo-popup__backdrop {
+  opacity: 1;
+}
+
+.moo-promo-popup.is-visible .moo-promo-popup__dialog {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.moo-promo-popup__close {
+  appearance: none;
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  width: 3.6rem;
+  height: 3.6rem;
+  border: 1px solid rgba(232, 213, 163, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  color: #f4ede3;
+  cursor: pointer;
+  transition: border-color 180ms ease, background 180ms ease, color 180ms ease;
+}
+
+.moo-promo-popup__close:hover,
+.moo-promo-popup__close:focus-visible {
+  border-color: rgba(232, 213, 163, 0.44);
+  background: rgba(255, 255, 255, 0.06);
+  color: #e8d5a3;
+}
+
+.moo-promo-popup__close span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1.3rem;
+  height: 1px;
+  background: currentColor;
+}
+
+.moo-promo-popup__close span:first-child {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.moo-promo-popup__close span:last-child {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.moo-promo-popup__eyebrow {
+  margin: 0 0 0.9rem;
+  color: #d8c270;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.moo-promo-popup__title {
+  margin: 0;
+  color: #fff5e8;
+  font-family: var(--font-heading-family);
+  font-size: clamp(2.8rem, 4vw, 3.8rem);
+  line-height: 0.98;
+}
+
+.moo-promo-popup__body {
+  margin: 1.2rem 0 0;
+  max-width: 31rem;
+  color: rgba(244, 237, 227, 0.78);
+  font-size: 1.45rem;
+  line-height: 1.65;
+}
+
+.moo-promo-popup__actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.8rem;
+}
+
+.moo-promo-popup__cta,
+.moo-promo-popup__secondary {
+  appearance: none;
+  min-height: 4.8rem;
+  border-radius: 999px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.moo-promo-popup__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1.8rem;
+  border: 0;
+  background: linear-gradient(180deg, #f8d97d, #cb8a1b);
+  color: #140b08;
+  box-shadow: 0 1rem 2.4rem rgba(201, 162, 39, 0.24);
+}
+
+.moo-promo-popup__cta:hover,
+.moo-promo-popup__cta:focus-visible {
+  transform: translateY(-1px);
+}
+
+.moo-promo-popup__secondary {
+  border: 1px solid rgba(232, 213, 163, 0.18);
+  background: rgba(255, 255, 255, 0.03);
+  color: #f4ede3;
+  padding: 0 1.6rem;
+  cursor: pointer;
+}
+
+.moo-promo-popup__secondary:hover,
+.moo-promo-popup__secondary:focus-visible {
+  border-color: rgba(232, 213, 163, 0.4);
+  color: #e8d5a3;
+}
+
+@media screen and (max-width: 749px) {
+  .moo-promo-popup__dialog {
+    right: 1.2rem;
+    left: 1.2rem;
+    bottom: 1.2rem;
+    width: auto;
+    padding: 2rem 1.8rem 1.8rem;
+    border-radius: 2.2rem;
+  }
+
+  .moo-promo-popup__title {
+    font-size: clamp(2.4rem, 8vw, 3.2rem);
+    max-width: 22rem;
+  }
+
+  .moo-promo-popup__body {
+    max-width: none;
+    font-size: 1.35rem;
+  }
+
+  .moo-promo-popup__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .moo-promo-popup__cta,
+  .moo-promo-popup__secondary {
+    width: 100%;
+  }
+}
