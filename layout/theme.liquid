@@ -326,10 +326,10 @@
     {% endif %}
     {{ 'moo-site-header.css' | asset_url | stylesheet_tag }}
     <script src="{{ 'moo-site-header.js' | asset_url }}" defer="defer"></script>
-    {% unless request.page_type == 'cart' %}
+    {% if settings.enable_moo_promo_popup and request.page_type != 'cart' %}
       {{ 'moo-promo-popup.css' | asset_url | stylesheet_tag }}
       <script src="{{ 'moo-promo-popup.js' | asset_url }}" defer="defer"></script>
-    {% endunless %}
+    {% endif %}
     {% if template.name == 'index' %}
       <script>
         tailwind.config = {
@@ -379,9 +379,9 @@
       {%- render 'cart-drawer' -%}
     {%- endif -%}
 
-    {% unless request.page_type == 'cart' %}
+    {% if settings.enable_moo_promo_popup and request.page_type != 'cart' %}
       {% render 'moo-promo-popup' %}
-    {% endunless %}
+    {% endif %}
 
     {% unless template.name == 'index' %}
       {% sections 'header-group' %}

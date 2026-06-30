@@ -1400,6 +1400,72 @@
     ]
   },
   {
+    "name": "MOO Promo Popup",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_moo_promo_popup",
+        "label": "Enable free shipping popup",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "moo_promo_eyebrow",
+        "label": "Eyebrow",
+        "default": "MOO offer"
+      },
+      {
+        "type": "text",
+        "id": "moo_promo_heading",
+        "label": "Headline",
+        "default": "Free shipping on orders $50+"
+      },
+      {
+        "type": "textarea",
+        "id": "moo_promo_body",
+        "label": "Body copy",
+        "default": "Stock up on MOO Steak Chips and we'll cover standard shipping."
+      },
+      {
+        "type": "text",
+        "id": "moo_promo_button_label",
+        "label": "Primary button label",
+        "default": "Shop bundles"
+      },
+      {
+        "type": "url",
+        "id": "moo_promo_button_link",
+        "label": "Primary button link"
+      },
+      {
+        "type": "text",
+        "id": "moo_promo_dismiss_label",
+        "label": "Dismiss label",
+        "default": "No thanks"
+      },
+      {
+        "type": "range",
+        "id": "moo_promo_delay_seconds",
+        "min": 2,
+        "max": 10,
+        "step": 1,
+        "unit": "s",
+        "label": "Delay before showing",
+        "default": 3
+      },
+      {
+        "type": "range",
+        "id": "moo_promo_dismiss_hours",
+        "min": 1,
+        "max": 72,
+        "step": 1,
+        "unit": "hr",
+        "label": "Dismiss for",
+        "default": 24
+      }
+    ]
+  },
+  {
     "name": "t:settings_schema.cart.name",
     "settings": [
       {

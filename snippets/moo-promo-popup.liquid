@@ -1,37 +1,50 @@
-<div
-  class="moo-promo-popup"
-  data-moo-promo-popup
-  data-delay-ms="2600"
-  data-dismiss-hours="24"
-  hidden
->
-  <div class="moo-promo-popup__backdrop" data-moo-promo-dismiss></div>
+{% liquid
+  assign popup_enabled = settings.enable_moo_promo_popup
+  assign popup_eyebrow = settings.moo_promo_eyebrow | default: 'M&#332;&#332; offer'
+  assign popup_heading = settings.moo_promo_heading | default: 'Free shipping on orders $50+'
+  assign popup_body = settings.moo_promo_body | default: 'Stock up on M&#332;&#332; Steak Chips and we&rsquo;ll cover standard shipping.'
+  assign popup_button_label = settings.moo_promo_button_label | default: 'Shop bundles'
+  assign popup_button_link = settings.moo_promo_button_link | default: '/pages/bundle'
+  assign popup_dismiss_label = settings.moo_promo_dismiss_label | default: 'No thanks'
+  assign popup_delay_seconds = settings.moo_promo_delay_seconds | default: 3
+  assign popup_delay_ms = popup_delay_seconds | times: 1000
+  assign popup_dismiss_hours = settings.moo_promo_dismiss_hours | default: 24
+%}
+
+{% if popup_enabled %}
   <div
-    class="moo-promo-popup__dialog"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="MooPromoPopupTitle"
-    aria-describedby="MooPromoPopupBody"
+    class="moo-promo-popup"
+    data-moo-promo-popup
+    data-delay-ms="{{ popup_delay_ms }}"
+    data-dismiss-hours="{{ popup_dismiss_hours }}"
+    hidden
   >
-    <button
-      type="button"
-      class="moo-promo-popup__close"
-      aria-label="Close free shipping offer"
-      data-moo-promo-dismiss
+    <div class="moo-promo-popup__backdrop" data-moo-promo-dismiss></div>
+    <div
+      class="moo-promo-popup__dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="MooPromoPopupTitle"
+      aria-describedby="MooPromoPopupBody"
     >
-      <span></span>
-      <span></span>
-    </button>
+      <button
+        type="button"
+        class="moo-promo-popup__close"
+        aria-label="Close free shipping offer"
+        data-moo-promo-dismiss
+      >
+        <span></span>
+        <span></span>
+      </button>
 
-    <p class="moo-promo-popup__eyebrow">M&#332;&#332; offer</p>
-    <h2 class="moo-promo-popup__title" id="MooPromoPopupTitle">Free shipping on orders $50+</h2>
-    <p class="moo-promo-popup__body" id="MooPromoPopupBody">
-      Stock up on M&#332;&#332; Steak Chips and we&rsquo;ll cover standard shipping.
-    </p>
+      <p class="moo-promo-popup__eyebrow">{{ popup_eyebrow }}</p>
+      <h2 class="moo-promo-popup__title" id="MooPromoPopupTitle">{{ popup_heading }}</h2>
+      <p class="moo-promo-popup__body" id="MooPromoPopupBody">{{ popup_body }}</p>
 
-    <div class="moo-promo-popup__actions">
-      <a href="/pages/bundle" class="moo-promo-popup__cta" data-moo-promo-cta>Shop bundles</a>
-      <button type="button" class="moo-promo-popup__secondary" data-moo-promo-dismiss>No thanks</button>
+      <div class="moo-promo-popup__actions">
+        <a href="{{ popup_button_link }}" class="moo-promo-popup__cta" data-moo-promo-cta>{{ popup_button_label }}</a>
+        <button type="button" class="moo-promo-popup__secondary" data-moo-promo-dismiss>{{ popup_dismiss_label }}</button>
+      </div>
     </div>
   </div>
-</div>
+{% endif %}

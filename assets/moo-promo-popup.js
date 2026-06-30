@@ -25,7 +25,6 @@
 
   function shouldSkipPopup(root) {
     const path = window.location.pathname || '';
-    if (window.Shopify?.designMode) return true;
     if (path === '/cart' || path.startsWith('/checkouts/') || path.startsWith('/checkout')) return true;
     if (getStorageItem(window.sessionStorage, SESSION_KEY) === 'true') return true;
 
