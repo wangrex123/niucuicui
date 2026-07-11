@@ -11,7 +11,9 @@
   "sections": {
     "hero": {
       "type": "moo-hero",
-      "settings": {}
+      "settings": {
+        "menu": "main-menu"
+      }
     },
     "marquee": {
       "type": "moo-marquee",
@@ -24,7 +26,7 @@
     "video": {
       "type": "moo-video",
       "settings": {
-        "video_url": "",
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/aaed15ed5f494762b01ebd51d20edc87.mp4",
         "caption": "Replace this placeholder with your hosted brand video when ready."
       }
     },
