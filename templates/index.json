@@ -26,8 +26,10 @@
     "video": {
       "type": "moo-video",
       "settings": {
-        "video_url": "https://cdn.shopify.com/videos/c/o/v/aaed15ed5f494762b01ebd51d20edc87.mp4",
-        "caption": "Replace this placeholder with your hosted brand video when ready."
+        "eyebrow": "M\u014c\u014c BRAND FILM",
+        "heading": "Built for the Bold.",
+        "subheading": "Real steak. Big crunch. Crafted for those who earn it.",
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/aaed15ed5f494762b01ebd51d20edc87.mp4"
       }
     },
     "flavors": {

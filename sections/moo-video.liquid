@@ -1,20 +1,25 @@
 <section class="video-section" id="video">
   <div class="container mx-auto px-6">
-    <div class="text-center mb-16">
-      <span class="text-[10px] text-moo-goldDim tracking-[0.3em] uppercase font-light">Behind the Scenes</span>
-      <h2 class="font-serif text-4xl lg:text-5xl text-moo-cream mt-3">See the Crunch</h2>
+    <div class="video-section__header text-center mb-16">
+      <span class="video-section__eyebrow">{{ section.settings.eyebrow }}</span>
+      <h2 class="video-section__heading">{{ section.settings.heading }}</h2>
+      {% if section.settings.subheading != blank %}
+        <p class="video-section__subheading">{{ section.settings.subheading }}</p>
+      {% endif %}
     </div>
     <div class="video-container">
-      <button type="button" class="video-poster" id="videoPoster" data-moo-video-trigger aria-label="Play video">
-        <span class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
-      </button>
-      <video id="mainVideo" class="w-full h-full object-cover" playsinline muted loop controls>
+      <video
+        id="mainVideo"
+        class="video-section__video w-full h-full object-cover"
+        playsinline
+        controls
+        preload="metadata"
+      >
         {% if section.settings.video_url != blank %}
           <source src="{{ section.settings.video_url | escape }}" type="video/mp4">
         {% endif %}
       </video>
     </div>
-    <p class="text-center text-moo-mute text-sm mt-6">{{ section.settings.caption }}</p>
   </div>
 </section>
 
@@ -23,15 +28,27 @@
   "name": "MOO Video",
   "settings": [
     {
-      "type": "url",
-      "id": "video_url",
-      "label": "MP4 URL"
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "M\u014c\u014c Brand Film"
     },
     {
       "type": "text",
-      "id": "caption",
-      "label": "Caption",
-      "default": "Replace this placeholder with your hosted brand video when ready."
+      "id": "heading",
+      "label": "Heading",
+      "default": "Built for the Bold."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Real steak. Big crunch. Crafted for those who earn it."
+    },
+    {
+      "type": "url",
+      "id": "video_url",
+      "label": "MP4 URL"
     }
   ],
   "presets": [

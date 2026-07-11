@@ -236,7 +236,12 @@
       animateTrack();
     }
     // Video
-    function playVideo() { document.getElementById('videoPoster').classList.add('hidden'); const video = document.getElementById('mainVideo'); video.play().catch(() => {}); }
+    function playVideo() {
+      const poster = document.getElementById('videoPoster');
+      const video = document.getElementById('mainVideo');
+      if (poster) poster.classList.add('hidden');
+      if (video) video.play().catch(() => {});
+    }
 
 (function () {
   function clearHomepageCartState() {
