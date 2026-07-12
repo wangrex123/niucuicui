@@ -9,6 +9,7 @@
  */
 {
   "current": {
+    "logo": "shopify://shop_images/logo_variations_2.png",
     "logo_width": 100,
     "favicon": "shopify://shop_images/logo_variations_2.png",
     "type_header_font": "figtree_n5",
